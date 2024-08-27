@@ -17,7 +17,7 @@ const ItemCount = ({ inicial, estoque, onAdd }: Props) => {
     };
 
     const geraDecremento = () => {
-        if (contador > 1) {
+        if (contador > 0) {
             setContador(contador - 1);
         }
     };
@@ -27,7 +27,7 @@ const ItemCount = ({ inicial, estoque, onAdd }: Props) => {
             <button onClick={geraDecremento} style={buttonStyle}>-</button>
             <span style={contadorStyle}>{contador}</span>
             <button onClick={geraAumento} style={buttonStyle}>+</button>
-            <button onClick={() => onAdd(contador)} style={addButtonStyle}>Adicionar ao Carrinho</button>
+            <button onClick={() => onAdd(contador)} style={addButtonStyle}>🛒</button>
         </div>
     );
 };
@@ -36,10 +36,11 @@ const containerStyle: CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
+    margin: '10px'
 };
 
 const buttonStyle: CSSProperties = {
-    padding: '10px 20px',
+    padding: '5px 10px',
     fontSize: '16px',
     cursor: 'pointer',
 };
@@ -49,13 +50,14 @@ const contadorStyle: CSSProperties = {
 };
 
 const addButtonStyle: CSSProperties = {
-    marginLeft: '10px',
-    padding: '10px 20px',
-    fontSize: '16px',
-    backgroundColor: '#28a745',
+    fontSize: '1rem',
+    fontWeight: 'bold',
     color: '#fff',
+    backgroundColor: 'fff',
     border: 'none',
+    borderRadius: '4px',
     cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
 };
 
 export default ItemCount;

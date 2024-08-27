@@ -1,10 +1,10 @@
 import React from 'react';
 import CartWidget from './CartWidget';
-import logo from '../assets/logo.png';
 
 const NavBar = () => {
     return (
         <nav style={styles.navbar}>
+            
             <h1>Loja do Bem</h1>
             <ul style={styles.navLinks}>
                 <li>Home</li>

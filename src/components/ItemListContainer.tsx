@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ItemList from './ItemList';
+import produtos from '../data/produtos.json';
 
-interface Item {
+interface Produto {
     id: number;
     nome: string;
     descricao: string;
@@ -11,19 +12,12 @@ interface Item {
 }
 
 const ItemListContainer = ({ greeting }: { greeting: string }) => {
-    const [items, setItems] = useState<Item[]>([]);
+    const [items, setItems] = useState<Produto[]>([]);
     const [loading, setLoading] = useState(true);
-
     useEffect(() => {
-        const mockData = [
-            { id: 1, nome: 'Produto 1', descricao: 'Descrição do Produto 1', price: 100, imagemUrl: 'https://via.placeholder.com/150', estoque: 5 },
-            { id: 2, nome: 'Produto 2', descricao: 'Descrição do Produto 2', price: 200, imagemUrl: 'https://via.placeholder.com/150', estoque: 10 },
-            { id: 3, nome: 'Produto 3', descricao: 'Descrição do Produto 3', price: 300, imagemUrl: 'https://via.placeholder.com/150', estoque: 15 },
-        ];
-
-        const getItems = new Promise<typeof mockData>((resolve) => {
+        const getItems = new Promise<Produto[]>((resolve) => {
             setTimeout(() => {
-                resolve(mockData);
+                resolve(produtos);
             }, 2000);
         });
 

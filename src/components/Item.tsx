@@ -1,62 +1,87 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 //perguntar ao professor como usa isso corretamente
-import { CSSProperties } from 'react';
-import ItemCount from './ItemCount';
+import { CSSProperties } from "react";
+import ItemCount from "./ItemCount";
 
 interface Props {
-    id: number;
-    nome: string;
-    descricao: string;
-    price: number;
-    imagemUrl: string;
-    estoque: number;
+  id: number;
+  nome: string;
+  descricao: string;
+  price: number;
+  imagemUrl: string;
+  estoque: number;
 }
 
-const Item = ({ id, nome, descricao, price, imagemUrl,estoque}: Props) => {
-    const [addedToCart, setAddedToCart] = useState(false);
-    const handleAddToCart = (quandidade: number) => {
-          setAddedToCart(true);
-    };
+const Item = ({ id, nome, descricao, price, imagemUrl, estoque }: Props) => {
+  const [addedToCart, setAddedToCart] = useState(false);
+  const handleAddToCart = (quandidade: number) => {
+    setAddedToCart(true);
+  };
 
-    return (
-        <div style={cardStyle}>
-            <img src={imagemUrl} alt={nome} style={imageStyle} />
-            <h3>{nome}</h3>
-            <p>{descricao}</p>
-            <p>{estoque}</p>
-            <p>{`Preço: R$ ${price}`}</p>
-            {addedToCart ? (
-                <button style={buttonStyle}>Finalizar Compra</button>
-            ) : (
-                <ItemCount inicial={1} estoque={estoque} onAdd={handleAddToCart} />
-            )}
-            <button style={buttonStyle}>Ver Detalhes</button>
-        </div>
-    );
+  return (
+    <div style={styles.card}>
+      <img src={imagemUrl} alt={nome} style={styles.image} />
+      <div style={styles.cardBody}>
+        <h3>{nome}</h3>
+        <p>{descricao}</p>
+        <p>{estoque}</p>
+        <p>{`Preço: R$ ${price}`}</p>
+        {addedToCart ? (
+          <button style={styles.button}>Finalizar Compra</button>
+        ) : (
+          <ItemCount inicial={0} estoque={estoque} onAdd={handleAddToCart} />
+        )}
+        <button style={styles.button}>Ver Detalhes</button>
+      </div>
+    </div>
+  );
 };
 
 //Consultei o Google para aprender a fazer isso, acho que quando a gente importar alguma biblioteca deve ficar mais fácil
-const cardStyle: CSSProperties = {
-    border: '1px solid #ccc',
-    padding: '1rem',
-    borderRadius: '5px',
-    textAlign: 'center' as 'center', // Solução de casting
+const styles = {
+    card: {
+        border: '1px solid #ddd',
+        borderRadius: '8px',
+        overflow: 'hidden',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        transition: 'transform 0.3s ease',
+        maxWidth: '300px',
+        margin: '10px',
+    } as CSSProperties,
+    image: {
+        width: '100%',
+        height: '200px',
+        objectFit: 'cover',
+    } as CSSProperties,
+    cardBody: {
+        padding: '15px',
+    } as CSSProperties,
+    title: {
+        fontSize: '1.25rem',
+        fontWeight: 'bold',
+        marginBottom: '10px',
+    } as CSSProperties,
+    description: {
+        fontSize: '0.9rem',
+        color: '#555',
+        marginBottom: '15px',
+    } as CSSProperties,
+    price: {
+        fontSize: '1.1rem',
+        fontWeight: 'bold',
+        marginBottom: '15px',
+        color: '#333',
+    } as CSSProperties,
+    button: {
+        padding: '10px 15px',
+        fontSize: '1rem',
+        fontWeight: 'bold',
+        color: '#fff',
+        backgroundColor: '#007bff',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s ease',
+    } as CSSProperties,
 };
-
-const imageStyle: CSSProperties = {
-    width: '100%',
-    height: 'auto',
-    maxHeight: '200px',
-    objectFit: 'cover' as 'cover', // Solução de casting
-};
-
-const buttonStyle: CSSProperties = {
-    marginTop: '10px',
-    padding: '10px 20px',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-    cursor: 'pointer',
-};
-
 export default Item;
