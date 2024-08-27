@@ -28,11 +28,18 @@ const ItemListContainer = ({ greeting }: { greeting: string }) => {
     }, []); //para fazer apenas quando carrega a página
 
     return (
-        <div>
+        <div style={styles.container}>
             <h2>{greeting}</h2>
             {loading ? <p>Carregando produtos...</p> : <ItemList items={items} />}
         </div>
     );
+};
+const styles = {
+    container: {
+        backgroundColor: '#DCF5E3', 
+        padding: '20px',
+        borderRadius: '8px',
+    },
 };
 
 export default ItemListContainer;

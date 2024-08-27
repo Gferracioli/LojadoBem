@@ -35,8 +35,9 @@ const ItemList = ({ items }: Props) => {
 const styles = {
     grid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-        gap: '1rem',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+        gap: '0.5rem',
+        
     },
 };
 
