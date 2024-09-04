@@ -1,11 +1,27 @@
-[
+{
+  "categorias": [
+    {
+      "id": 1,
+      "nome" : "natureza"
+    },
+    {
+      "id": 2,
+      "nome" : "comunidade"
+    },
+    {
+      "id": 3,
+      "nome" : "cuidar"
+    }
+  ],
+  "produtos": [
   {
     "id": 1,
     "nome": "Plante uma Árvore",
     "descricao": "Contribua para um futuro mais verde. A compra financia o plantio de uma muda nativa em área de reflorestamento, ajudando a combater o desmatamento e preservar a biodiversidade.",
     "price": 75,
     "imagemUrl": "/assets/img/plantar.webp",
-    "estoque": 5
+    "estoque": 5,
+    "categoria" : "natureza"
   },
   {
     "id": 2,
@@ -13,7 +29,8 @@
     "descricao": " Devolva a alegria às crianças. A compra financia a reforma de um parquinho em área carente, incluindo pintura, reparos nos brinquedos e instalação de novos equipamentos, proporcionando um espaço seguro e divertido para a comunidade.",
     "price": 400,
     "imagemUrl": "/assets/img/playground.webp",
-    "estoque": 3
+    "estoque": 3,
+    "categoria" : "comunidade"
   },
   {
     "id": 3,
@@ -21,7 +38,8 @@
     "descricao": "Promova a segurança no trânsito. A compra financia a pintura e revitalização de uma faixa de pedestres desgastada, garantindo a visibilidade e segurança dos pedestres.",
     "price": 130,
     "imagemUrl": "/assets/img/faixa_de_pedestre.webp",
-    "estoque": 2
+    "estoque": 2,
+    "categoria" : "comunidade"
   },
   {
     "id": 4,
@@ -29,7 +47,8 @@
     "descricao": "Combata a fome na sua cidade. A compra financia a doação de uma cesta básica completa para uma família em situação de vulnerabilidade alimentar, garantindo o acesso a alimentos essenciais.",
     "price": 58,
     "imagemUrl": "/assets/img/Cesta_basica.webp",
-    "estoque": 20
+    "estoque": 20,
+    "categoria" : "cuidar"
   },
   {
     "id": 5,
@@ -37,7 +56,8 @@
     "descricao": "Promova a saúde e o bem-estar. A compra financia a montagem de um kit de higiene pessoal contendo itens essenciais como sabonete, escova de dentes, creme dental, shampoo, condicionador e absorventes, que será doado a pessoas em situação de rua ou abrigos.",
     "price": 15,
     "imagemUrl": "/assets/img/kit_higiene.webp",
-    "estoque": 150
+    "estoque": 150,
+    "categoria" : "cuidar"
   },
   {
     "id": 6,
@@ -45,7 +65,8 @@
     "descricao": "Crie um espaço verde e de convivência. A compra financia a criação de um jardim comunitário em um espaço público ocioso, transformando-o em um local de lazer, cultivo de alimentos e integração da comunidade.",
     "price": 3000,
     "imagemUrl": "/assets/img/horta_comunitaria.webp",
-    "estoque": 1
+    "estoque": 1,
+    "categoria" : "comunidade"
   },
   {
     "id": 7,
@@ -53,7 +74,8 @@
     "descricao": " Ofereça uma refeição quente e nutritiva. A compra financia o preparo e a distribuição de uma refeição completa para pessoas em situação de rua ou vulnerabilidade alimentar. A Loja do Bem pode organizar um evento em parceria com voluntários para cozinhar e distribuir as refeições em locais estratégicos da cidade.",
     "price": 12,
     "imagemUrl": "/assets/img/refeicao.webp",
-    "estoque": 50
+    "estoque": 50,
+    "categoria" : "cuidar"
   },
   {
     "id": 8,
@@ -61,6 +83,8 @@
     "descricao": "Preserve o meio ambiente. A compra financia um mutirão de limpeza em uma praia ou parque, removendo o lixo e promovendo a conscientização ambiental na comunidade.",
     "price": 500,
     "imagemUrl": "/assets/img/limpeza_praia.webp",
-    "estoque": 2
+    "estoque": 2,
+    "categoria" : "natureza"
   }
 ]
+}

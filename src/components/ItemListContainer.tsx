@@ -17,7 +17,7 @@ const ItemListContainer = ({ greeting }: { greeting: string }) => {
     useEffect(() => {
         const getItems = new Promise<Produto[]>((resolve) => {
             setTimeout(() => {
-                resolve(produtos);
+                resolve(produtos.produtos);
             }, 2000);
         });
 

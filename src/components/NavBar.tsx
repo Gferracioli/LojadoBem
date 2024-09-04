@@ -1,17 +1,24 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import CartWidget from './CartWidget';
+import data from '../data/produtos.json'
+import { link } from 'fs';
+import { NOMEM } from 'dns';
 
 const NavBar = () => {
     return (
         <nav style={styles.navbar}>
-            <img src="/assets/img/logo.png" alt="Logo" className="navbar-logo" />
+            <div>
+            <Link to="/"><img src="/assets/img/logo.png" alt="Logo" className="navbar-logo" /></Link>
             <h1>Loja do Bem</h1>
-            <ul style={styles.navLinks}>
-                <li>Home</li>
-                <li>Produtos</li>
-                <li>Sobre Nós</li>
-                <li>Contato</li>
-            </ul>
+            </div>
+
+            <div>
+                {data.categorias.map((categoria) => (
+                    <Link to="/">{categoria.nome}</Link>
+                ))}
+            </div>
+            
             <CartWidget />
         </nav>
     );
