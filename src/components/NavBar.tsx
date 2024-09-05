@@ -14,7 +14,7 @@ const NavBar = () => {
 
         <div className="flex items-center space-x-4">
           {data.categorias.map((categoria) => (
-            <Link key={categoria.id} to={`/category/${categoria.id}`}>
+            <Link key={categoria.id} to={`/categoria/${categoria.id}`}>
               {categoria.nome}
             </Link>
           ))}

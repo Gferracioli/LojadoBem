@@ -4,7 +4,7 @@ import ItemListContainer from "../../components/ItemListContainer";
 const Home: React.FC = () => {
   return (
     <div>
-      <ItemListContainer greeting="" />
+      <ItemListContainer />
     </div>
   );
 };
