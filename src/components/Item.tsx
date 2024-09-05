@@ -2,6 +2,7 @@ import React, { useState } from "react";
 //perguntar ao professor como usa isso corretamente
 import { CSSProperties } from "react";
 import ItemCount from "./ItemCount";
+import { Link } from 'react-router-dom';
 
 interface Props {
   id: number;
@@ -31,7 +32,7 @@ const Item = ({ id, nome, descricao, price, imagemUrl, estoque }: Props) => {
         ) : (
           <ItemCount inicial={0} estoque={estoque} onAdd={handleAddToCart} />
         )}
-        <button style={styles.button}>Ver Detalhes</button>
+         <Link to={`/item/${id}`}><button style={styles.button}>Ver Detalhes</button> </Link>
       </div>
     </div>
   );

@@ -1,45 +1,29 @@
-import React from 'react';
+import React from "react";
 import { Link } from "react-router-dom";
-import CartWidget from './CartWidget';
-import data from '../data/produtos.json'
-import { link } from 'fs';
-import { NOMEM } from 'dns';
+import CartWidget from "./CartWidget";
+import data from "../data/produtos.json";
 
 const NavBar = () => {
-    return (
-        <nav style={styles.navbar}>
-            <div>
-            <Link to="/"><img src="/assets/img/logo.png" alt="Logo" className="navbar-logo" /></Link>
-            <h1>Loja do Bem</h1>
-            </div>
+  return (
+    <nav className="p-4 text-black bg-green-400">
+      <div className="container m-auto flex items-center justify-between">
+        <Link to="/">
+          <img src="/assets/img/logo.png" alt="Logo" className="navbar-logo" />
+        </Link>
+        <h1>Loja do Bem</h1>
 
-            <div>
-                {data.categorias.map((categoria) => (
-                    <Link to="/">{categoria.nome}</Link>
-                ))}
-            </div>
-            
-            <CartWidget />
-        </nav>
-    );
-};
+        <div className="flex items-center space-x-4">
+          {data.categorias.map((categoria) => (
+            <Link key={categoria.id} to={`/category/${categoria.id}`}>
+              {categoria.nome}
+            </Link>
+          ))}
+        </div>
 
-const styles = {
-    navbar: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '1rem',
-        backgroundColor: '#068E2C',
-        font: 'poppins'
-
-    },
-    navLinks: {
-        listStyle: 'none',
-        display: 'flex',
-        gap: '1rem',
-        font: 'poppins'
-    },
+        <CartWidget />
+      </div>
+    </nav>
+  );
 };
 
 export default NavBar;
