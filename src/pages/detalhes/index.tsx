@@ -14,7 +14,7 @@ interface Produto {
 }
 
 const DetalhesProduto = () => {
-  const { id } = useParams<{ id: string }>(); // Captura o ID do item pela URL
+  const { id } = useParams<{ id: string }>();
   const [produto, setProduto] = useState<Produto | undefined>();
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +25,7 @@ const DetalhesProduto = () => {
           (item) => item.id === Number(id)
         );
         resolve(itemEncontrado);
-      }, 500); // Simulação de carregamento
+      }, 500);
     });
 
     getProduto.then((data) => {
