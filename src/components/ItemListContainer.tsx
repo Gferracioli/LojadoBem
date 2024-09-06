@@ -35,7 +35,9 @@ const Home = () => {
         });
     }, [id]);
 
-    if (loading) return <p>Carregando produtos...</p>;
+    if (loading) return <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="w-16 h-16 border-4 border-t-transparent border-gray-200 rounded-full animate-spin"></div>
+  </div>;
 
     return (
         <div style={styles.container}>

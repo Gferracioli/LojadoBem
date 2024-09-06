@@ -1,9 +1,12 @@
 import React from 'react';
+import { TiShoppingCart } from "react-icons/ti";
+
 
 const CartWidget = () => {
     return (
-        <div>
-            🛒 
+        <div className='text-2xl'>
+        <TiShoppingCart />
+        
         </div>
     );
 };

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { CSSProperties } from 'react';
-
+import { TiShoppingCart } from "react-icons/ti";
 interface Props {
     inicial: number;
     estoque: number;
@@ -23,41 +22,30 @@ const ItemCount = ({ inicial, estoque, onAdd }: Props) => {
     };
 
     return (
-        <div style={containerStyle}>
-            <button onClick={geraDecremento} style={buttonStyle}>-</button>
-            <span style={contadorStyle}>{contador}</span>
-            <button onClick={geraAumento} style={buttonStyle}>+</button>
-            <button onClick={() => onAdd(contador)} style={addButtonStyle}>🛒</button>
+        <div className="flex items-center gap-4 my-4">
+            
+            <button onClick={geraDecremento} className="px-4 py-2 text-lg font-semibold bg-gray-200 hover:bg-gray-300 rounded">
+                -
+            </button>
+            
+            <span className="text-xl font-semibold">{contador}</span>
+          
+            <button onClick={geraAumento} className="px-4 py-2 text-lg font-semibold bg-gray-200 hover:bg-gray-300 rounded">
+                +
+            </button>
+            <button
+                onClick={() => onAdd(contador)}
+                disabled={contador === 0} 
+                className={`px-4 py-2 ml-4 text-white font-bold rounded transition relative ${
+                    contador === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+                }`}
+            >
+            <TiShoppingCart />
+           
+            </button>
+           
         </div>
     );
-};
-
-const containerStyle: CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    margin: '10px'
-};
-
-const buttonStyle: CSSProperties = {
-    padding: '5px 10px',
-    fontSize: '16px',
-    cursor: 'pointer',
-};
-
-const contadorStyle: CSSProperties = {
-    fontSize: '18px',
-};
-
-const addButtonStyle: CSSProperties = {
-    fontSize: '1rem',
-    fontWeight: 'bold',
-    color: '#fff',
-    backgroundColor: 'fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
 };
 
 export default ItemCount;

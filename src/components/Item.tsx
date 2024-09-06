@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-//perguntar ao professor como usa isso corretamente
-import { CSSProperties } from "react";
 import ItemCount from "./ItemCount";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 interface Props {
   id: number;
@@ -15,75 +13,43 @@ interface Props {
 
 const Item = ({ id, nome, descricao, price, imagemUrl, estoque }: Props) => {
   const [addedToCart, setAddedToCart] = useState(false);
-  const handleAddToCart = (quandidade: number) => {
+
+  const handleAddToCart = (quantidade: number) => {
     setAddedToCart(true);
   };
 
   return (
-    <div style={styles.card}>
-      <img src={imagemUrl} alt={nome} style={styles.image} />
-      <div style={styles.cardBody}>
-        <h3>{nome}</h3>
-        <p>{descricao}</p>
-        <p>{`Preço: R$ ${price}`}</p>
-        <p>{`Quantidade disponível: ${estoque}`}</p>
-        {addedToCart ? (
-          <button style={styles.button}>Finalizar Compra</button>
-        ) : (
-          <ItemCount inicial={0} estoque={estoque} onAdd={handleAddToCart} />
-        )}
-         <Link to={`/item/${id}`}><button style={styles.button}>Ver Detalhes</button> </Link>
+    <div className="max-w-sm bg-white border border-gray-300 rounded-lg shadow-md transition-transform transform hover:scale-105 m-4 flex flex-col justify-between">
+      <img src={imagemUrl} alt={nome} className="w-full h-48 object-cover" />
+
+      <div className="flex flex-col flex-grow p-4">
+        <h3 className="text-xl font-bold mb-2">{nome}</h3>
+        <p className="text-gray-600 mb-4 flex-grow">{descricao}</p>
+        <p className="text-lg font-semibold text-gray-800 mb-2">{`Preço: R$ ${price}`}</p>
+        <p className="text-sm text-gray-600 mb-4">{`Quantidade disponível: ${estoque}`}</p>
+
+        <div className="flex justify-center items-center mt-2 ">
+          {addedToCart ? (
+            <Link to="/cart">
+            <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition ">
+              Adicionado ao carrinho
+            </button>
+            </Link>
+          ) : (
+            <ItemCount inicial={0} estoque={estoque} onAdd={handleAddToCart} />
+          )}
+        </div>
+
+        <div className="mt-4 flex justify-center">
+          <Link to={`/item/${id}`}>
+            <button className="px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition w-full">
+              Ver Detalhes
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
 
-//Consultei o Google para aprender a fazer isso, acho que quando a gente importar alguma biblioteca deve ficar mais fácil
-const styles = {
-  card: {
-    border: "1px solid #ddd",
-    borderRadius: "8px",
-    overflow: "hidden",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    transition: "transform 0.3s ease",
-    maxWidth: "300px",
-    margin: "10px",
-    backgroundColor: "#F8F7FF",
-  } as CSSProperties,
-  image: {
-    width: "100%",
-    height: "200px",
-    objectFit: "cover",
-  } as CSSProperties,
-  cardBody: {
-    padding: "15px",
-  } as CSSProperties,
-  title: {
-    fontSize: "1.25rem",
-    fontWeight: "bold",
-    marginBottom: "10px",
-  } as CSSProperties,
-  description: {
-    fontSize: "0.9rem",
-    color: "#555",
-    marginBottom: "15px",
-  } as CSSProperties,
-  price: {
-    fontSize: "1.1rem",
-    fontWeight: "bold",
-    marginBottom: "15px",
-    color: "#333",
-  } as CSSProperties,
-  button: {
-    padding: "10px 15px",
-    fontSize: "1rem",
-    fontWeight: "bold",
-    color: "#fff",
-    backgroundColor: "#1DAB45",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    transition: "background-color 0.3s ease",
-  } as CSSProperties,
-};
 export default Item;
