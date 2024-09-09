@@ -1,27 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import CartWidget from "./CartWidget";
 import data from "../data/produtos.json";
+import { CiMenuBurger } from "react-icons/ci"; // Importar o ícone do react-icons
 
 const NavBar = () => {
-  return (
-    <nav className="p-4 text-black bg-green-400">
-      <div className="container m-auto flex items-center justify-between">
-        <Link to="/">
-          <img src="/assets/img/logo.png" alt="Logo" className="navbar-logo" />
-        </Link>
-        <h1>Loja do Bem</h1>
+  // Estado para controlar o menu hambúrguer (aberto ou fechado)
+  const [menuOpen, setMenuOpen] = useState(false);
 
+  // Função para alternar o estado do menu
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  return (
+    <nav className="bg-green-400 p-4 shadow-md">
+      <div className="container mx-auto flex items-center justify-between">
+        {/* Logo e Nome da Loja */}
         <div className="flex items-center space-x-4">
+          <Link to="/">
+            <img src="/assets/img/logo.png" alt="Logo" className="w-16 h-16" />
+          </Link>
+          <h1 className="text-2xl font-bold text-white">Loja do Bem</h1>
+        </div>
+
+        {/* Menu Hambúrguer */}
+        <div className="md:hidden">
+          <button
+            onClick={toggleMenu}
+            className="text-white focus:outline-none"
+          >
+            <CiMenuBurger className="w-8 h-8" /> {/* Ícone de menu hambúrguer */}
+          </button>
+        </div>
+
+        {/* Links das Categorias - visíveis em telas grandes (md ou maior) */}
+        <div className="hidden md:flex space-x-8 text-white">
           {data.categorias.map((categoria) => (
-            <Link key={categoria.id} to={`/categoria/${categoria.id}`}>
+            <Link
+              key={categoria.id}
+              to={`/categoria/${categoria.id}`}
+              className="hover:text-gray-300 transition-colors"
+            >
               {categoria.nome}
             </Link>
           ))}
         </div>
 
+        {/* Carrinho de Compras */}
         <CartWidget />
       </div>
+
+      {/* Menu dropdown Hamburguer */}
+      {menuOpen && (
+        <div className="md:hidden mt-2 bg-green-500 text-white space-y-2 p-4">
+          {data.categorias.map((categoria) => (
+            <Link
+              key={categoria.id}
+              to={`/categoria/${categoria.id}`}
+              onClick={() => setMenuOpen(false)}  // Fecha o menu ao clicar em um link
+              className="block hover:text-gray-300 transition-colors"
+            >
+              {categoria.nome}
+            </Link>
+          ))}
+        </div>
+      )}
     </nav>
   );
 };
