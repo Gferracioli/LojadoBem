@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import produtos from "../../data/produtos.json";
+import { useLoading } from "../../context/LoadingContex";
+
 interface Produto {
   id: number;
   nome: string;
@@ -16,9 +18,10 @@ interface Produto {
 const DetalhesProduto = () => {
   const { id } = useParams<{ id: string }>();
   const [produto, setProduto] = useState<Produto | undefined>();
-  const [loading, setLoading] = useState(true);
+  const {loading, setLoading} = useLoading();
 
   useEffect(() => {
+    setLoading(true)
     const getProduto = new Promise<Produto | undefined>((resolve) => {
       setTimeout(() => {
         const itemEncontrado = produtos.produtos.find(
@@ -32,9 +35,13 @@ const DetalhesProduto = () => {
       setProduto(data);
       setLoading(false);
     });
-  }, [id]);
+  }, [id, setLoading]);
 
-  if (loading) return <p className="text-center mt-5">Carregando produto...</p>;
+  if (loading) return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="w-16 h-16 border-4 border-t-transparent border-gray-200 rounded-full animate-spin"></div>
+    </div>
+  );
 
   if (!produto)
     return <p className="text-center mt-5">Produto não encontrado</p>;

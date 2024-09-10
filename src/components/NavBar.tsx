@@ -5,10 +5,9 @@ import data from "../data/produtos.json";
 import { CiMenuBurger } from "react-icons/ci"; // Importar o ícone do react-icons
 
 const NavBar = () => {
-  // Estado para controlar o menu hambúrguer (aberto ou fechado)
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Função para alternar o estado do menu
+  // Toggle
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -34,7 +33,7 @@ const NavBar = () => {
           </button>
         </div>
 
-        {/* Links das Categorias - visíveis em telas grandes (md ou maior) */}
+        {/* Links das Categorias */}
         <div className="hidden md:flex space-x-8 text-white">
           {data.categorias.map((categoria) => (
             <Link
@@ -47,7 +46,7 @@ const NavBar = () => {
           ))}
         </div>
 
-        {/* Carrinho de Compras */}
+       
         <CartWidget />
       </div>
 
