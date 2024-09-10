@@ -22,7 +22,6 @@ const Home = () => {
   const [items, setItems] = useState<Produto[]>([]);
 
   useEffect(() => {
-    console.log('Carregando os itens...'); // Verificar no console
     setLoading(true);
 
     const getItems = new Promise<Produto[]>((resolve) => {
@@ -41,7 +40,6 @@ const Home = () => {
   }, [id, setLoading]); // Colocar setLoading na dependência para evitar avisos no console (perguntar ao professor)
 
   if (loading) {
-    console.log('Exibindo spinner...'); // Verificar no console
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="w-16 h-16 border-4 border-t-transparent border-gray-200 rounded-full animate-spin"></div>

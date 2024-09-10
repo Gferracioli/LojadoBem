@@ -1,43 +1,27 @@
-import React from 'react';
-import Item from './Item';
-
-interface ItemProps {
-    id: number;
-    nome: string;
-    descricao: string;
-    price: number;
-    imagemUrl: string;
-    estoque: number;
-}
+import React from "react";
+import Item from "./Item";
+import { Produto } from "../interfaces/produto.interface";
 
 interface Props {
-    items: ItemProps[];
+  items: Produto[];
 }
 
 const ItemList = ({ items }: Props) => {
-    return (
-        <div style={styles.grid}>
-            {items.map(item => (
-                <Item 
-                    key={item.id}
-                    id={item.id}
-                    nome={item.nome}
-                    descricao={item.descricao}
-                    price={item.price}
-                    imagemUrl={item.imagemUrl}
-                    estoque={item.estoque}
-                />
-            ))}
-        </div>
-    );
+  return (
+    <div style={styles.grid}>
+      {items.map((item) => (
+        <Item key={item.id} {...item} />
+      ))}
+    </div>
+  );
 };
 
 const styles = {
-    grid: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-        gap: '0.5rem',
-    },
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+    gap: "0.5rem",
+  },
 };
 
 export default ItemList;
