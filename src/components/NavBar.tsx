@@ -13,14 +13,14 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="bg-green-400 p-4 shadow-md">
+    <nav className="bg-violet-950 p-4 shadow-md">
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo e Nome da Loja */}
         <div className="flex items-center space-x-4">
           <Link to="/">
-            <img src="/assets/img/logo.png" alt="Logo" className="w-16 h-16" />
+            <img src="/assets/img/logo.png" alt="Logo" className="w-25 h-25" />
           </Link>
-          <h1 className="text-2xl font-bold text-white">Loja do Bem</h1>
+          <h1 className="text-2xl font-bold text-white hidden">Loja do Bem</h1>
         </div>
 
         {/* Menu Hambúrguer */}

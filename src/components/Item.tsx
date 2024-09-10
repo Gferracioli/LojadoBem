@@ -39,7 +39,7 @@ const Item = (produto: Produto) => {
 
         <div className="mt-4 flex justify-center">
           <Link to={`/item/${produto.id}`}>
-            <button className="px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition w-full">
+            <button className="px-2 py-1 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition w-full">
               Ver Detalhes
             </button>
           </Link>

@@ -37,7 +37,7 @@ const Home = () => {
   }
 
   return (
-    <div className="bg-green-100 p-6 rounded-lg">
+    <div className="bg-neutral-100 p-6 rounded-lg">
       <ItemList items={items} /> {/* Passando os itens para o ItemList */}
     </div>
   );
