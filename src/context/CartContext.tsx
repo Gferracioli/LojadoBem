@@ -8,6 +8,7 @@ interface CartContextProps {
   addItem: (item: Produto, quantity: number) => void;
   removeItem: (id: number) => void;
   clearCart: () => void;
+  updateItemQuantity: (id: number, quantity: number) => void;
   isInCart: (id: number) => boolean;
 }
 
@@ -17,6 +18,7 @@ const CartContext = createContext<CartContextProps>({
   addItem: () => null,
   removeItem: () => null,
   clearCart: () => null,
+  updateItemQuantity: () => {},
   isInCart: () => false,
 });
 
@@ -55,6 +57,13 @@ const CartProvider = ({ children }: CartProviderProps) => {
   const clearCart = () => {
     setCart([]);
   };
+  const updateItemQuantity = (id: number, quantity: number) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === id ? { ...item, quantidade: Math.max(1, quantity) } : item
+      )
+    );
+  };
 
   // Função para verificar se o item está no carrinho
   const isInCart = (id: number) => {
@@ -62,7 +71,7 @@ const CartProvider = ({ children }: CartProviderProps) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart, addItem, removeItem, clearCart, isInCart }}>
+    <CartContext.Provider value={{ cart, addItem, removeItem, clearCart, isInCart, updateItemQuantity }}>
       {children}
     </CartContext.Provider>
   );

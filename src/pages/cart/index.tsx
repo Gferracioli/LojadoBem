@@ -2,7 +2,7 @@ import React from "react";
 import { useCart } from "../../context/CartContext";
 
 const Cart = () => {
-  const { cart, removeItem, clearCart } = useCart();
+  const { cart, removeItem, clearCart, updateItemQuantity } = useCart();
 
   // Calcular o total da compra
   const calcularTotal = () => {
@@ -26,6 +26,22 @@ const Cart = () => {
               <div>
                 <h2 className="text-lg font-bold">{item.nome}</h2>
                 <p className="text-sm text-gray-600">Preço: R$ {item.price}</p>
+                <div className="flex items-center">
+                  <button
+                    onClick={() => updateItemQuantity(item.id, item.quantidade - 1)}
+                    className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition"
+                    disabled={item.quantidade <= 1} // Não permitir que vá abaixo de 1
+                  >
+                    -
+                  </button>
+                  <span className="mx-3 text-gray-600">{item.quantidade}</span>
+                  <button
+                    onClick={() => updateItemQuantity(item.id, item.quantidade + 1)}
+                    className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition" disabled={item.quantidade >= item.estoque}
+                  >
+                    +
+                  </button>
+                </div>
                 <p className="text-sm text-gray-600">
                   Quantidade: {item.quantidade}
                 </p>{" "}
