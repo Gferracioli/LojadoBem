@@ -36,13 +36,13 @@ const CartProvider = ({ children }: CartProviderProps) => {
       // Atualiza a quantidade
       const updatedCart = cart.map((cartItem) =>
         cartItem.id === item.id
-          ? { ...cartItem, estoque: cartItem.estoque - quantity }
+          ? { ...cartItem, quantidade: cartItem.quantidade + quantity }
           : cartItem
       );
       setCart(updatedCart);
     } else {
       // Adiciona o item ao carrinho se não existir, abrindo o objeto em array
-      setCart([...cart, { ...item, estoque: item.estoque - quantity }]);
+      setCart([...cart, { ...item, quantidade: quantity }]);
     }
   };
 

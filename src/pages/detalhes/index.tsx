@@ -5,18 +5,7 @@ import { useLoading } from "../../context/LoadingContex";
 import { useCart } from "../../context/CartContext";
 import ItemCount from "../../components/ItemCount";
 import { Link } from "react-router-dom";
-
-interface Produto {
-  id: number;
-  nome: string;
-  descricao: string;
-  detalhe1: string;
-  detalhe2: string;
-  price: number;
-  imagemUrl: string;
-  estoque: number;
-  categoria: number;
-}
+import { Produto } from "../../interfaces/produto.interface";
 
 const DetalhesProduto = () => {
   const { id } = useParams<{ id: string }>();
@@ -57,7 +46,6 @@ const DetalhesProduto = () => {
 
   const handleAddToCart = (quantity: number) => {
     if (produto) {
-        console.log("Produto adicionado ao carrinho:", produto.nome, quantity);
       addItem(produto, quantity);
       setAddedToCart(true);
     }

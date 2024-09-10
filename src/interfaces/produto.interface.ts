@@ -8,4 +8,5 @@ export interface Produto {
   imagemUrl: string;
   estoque: number;
   categoria: number;
+  quantidade: number;
   }

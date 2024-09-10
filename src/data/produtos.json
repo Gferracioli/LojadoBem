@@ -23,7 +23,8 @@
       "price": 75,
       "imagemUrl": "/assets/img/plantar.webp",
       "estoque": 5,
-      "categoria": 1
+      "categoria": 1,
+      "quantidade":0
     },
     {
       "id": 2,
@@ -34,7 +35,8 @@
       "price": 400,
       "imagemUrl": "/assets/img/playground.webp",
       "estoque": 3,
-      "categoria": 2
+      "categoria": 2,
+      "quantidade":0
     },
     {
       "id": 3,
@@ -45,7 +47,8 @@
       "price": 130,
       "imagemUrl": "/assets/img/faixa_de_pedestre.webp",
       "estoque": 2,
-      "categoria": 2
+      "categoria": 2,
+      "quantidade":0
     },
     {
       "id": 4,
@@ -56,7 +59,8 @@
       "price": 58,
       "imagemUrl": "/assets/img/Cesta_basica.webp",
       "estoque": 20,
-      "categoria": 3
+      "categoria": 3,
+      "quantidade":0
     },
     {
       "id": 5,
@@ -67,7 +71,8 @@
       "price": 15,
       "imagemUrl": "/assets/img/kit_higiene.webp",
       "estoque": 150,
-      "categoria": 3
+      "categoria": 3,
+      "quantidade":0
     },
     {
       "id": 6,
@@ -78,7 +83,8 @@
       "price": 3000,
       "imagemUrl": "/assets/img/horta_comunitaria.webp",
       "estoque": 1,
-      "categoria": 2
+      "categoria": 2,
+      "quantidade":0
     },
     {
       "id": 7,
@@ -89,7 +95,8 @@
       "price": 12,
       "imagemUrl": "/assets/img/refeicao.webp",
       "estoque": 50,
-      "categoria": 3
+      "categoria": 3,
+      "quantidade":0
     },
     {
       "id": 8,
@@ -100,7 +107,8 @@
       "price": 500,
       "imagemUrl": "/assets/img/limpeza_praia.webp",
       "estoque": 2,
-      "categoria": 1
+      "categoria": 1,
+      "quantidade":0
     }
   ]
 }
