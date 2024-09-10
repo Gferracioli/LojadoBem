@@ -15,10 +15,12 @@ const Item = (produto: Produto) => {
 
   return (
     <div className="max-w-sm bg-white border border-gray-300 rounded-lg shadow-md transition-transform transform hover:scale-105 m-4 flex flex-col justify-between">
-      <img src={produto.imagemUrl} alt={produto.nome} className="w-full h-48 object-cover" />
-
+     <Link to={`/item/${produto.id}`}>
+      <img src={produto.imagemUrl} alt={produto.nome} className="w-full h-48 object-cover" /></Link>
       <div className="flex flex-col flex-grow p-4">
+      <Link to={`/item/${produto.id}`}>
         <h3 className="text-xl font-bold mb-2">{produto.nome}</h3>
+        </Link>
         <p className="text-gray-600 mb-4 flex-grow">{produto.descricao}</p>
         <p className="text-lg font-semibold text-gray-800 mb-2">{`Preço: R$ ${produto.price}`}</p>
         <p className="text-sm text-gray-600 mb-4">{`Quantidade disponível: ${produto.estoque}`}</p>
