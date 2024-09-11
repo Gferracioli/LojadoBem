@@ -5,7 +5,9 @@ export interface Produto {
   detalhe1: string;
   detalhe2: string;
   price: number;
-  imagemUrl: string;
+  imagemUrl1: string;
+  imagemUrl2: string;
+  imagemUrl3: string;
   estoque: number;
   categoria: number;
   quantidade: number;

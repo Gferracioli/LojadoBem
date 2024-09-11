@@ -39,7 +39,7 @@ const NavBar = () => {
             <Link
               key={categoria.id}
               to={`/categoria/${categoria.id}`}
-              className="hover:text-gray-300 transition-colors"
+              className="text-lg hover:text-gray-300 transition-colors"
             >
               {categoria.nome}
             </Link>

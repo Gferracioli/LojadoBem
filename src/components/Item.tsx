@@ -3,6 +3,7 @@ import ItemCount from "./ItemCount";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext"; // Importa o contexto do carrinho
 import { Produto } from "../interfaces/produto.interface";
+import { CustomSwiper } from "./Swiper/CustomSwiper";
 
 const Item = (produto: Produto) => {
   const { addItem, isInCart } = useCart(); // Usar o contexto do carrinho
@@ -12,11 +13,13 @@ const Item = (produto: Produto) => {
     addItem(produto, quantidade);
     setAddedToCart(true); // Atualiza o estado local para mostrar o botão "Adicionado ao carrinho"
   };
+  const imagens = [produto.imagemUrl1, produto.imagemUrl2, produto.imagemUrl3];
 
   return (
     <div className="max-w-sm bg-white border border-gray-300 rounded-lg shadow-md transition-transform transform hover:scale-105 m-4 flex flex-col justify-between">
      <Link to={`/item/${produto.id}`}>
-      <img src={produto.imagemUrl} alt={produto.nome} className="w-full h-48 object-cover" /></Link>
+      {/* <img src={produto.imagemUrl} alt={produto.nome} className="w-full h-48 object-cover" /> */}
+      <CustomSwiper images={imagens} /></Link>
       <div className="flex flex-col flex-grow p-4">
       <Link to={`/item/${produto.id}`}>
         <h3 className="text-xl font-bold mb-2">{produto.nome}</h3>

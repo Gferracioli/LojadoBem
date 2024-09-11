@@ -15,8 +15,9 @@ const DetalhesProduto = () => {
   const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
+    console.log("entrou aqui")
     const getProduto = new Promise<Produto | undefined>((resolve) => {
+      setLoading(true);
       setTimeout(() => {
         const itemEncontrado = produtos.produtos.find(
           (item) => item.id === Number(id)
@@ -24,7 +25,7 @@ const DetalhesProduto = () => {
         resolve(itemEncontrado);
       }, 500);
     });
-
+ // separar em outro usereffect
     getProduto.then((data) => {
       setProduto(data);
       setLoading(false);
@@ -32,14 +33,7 @@ const DetalhesProduto = () => {
         setAddedToCart(true);
       }
     });
-  }, [id, setLoading, isInCart]);
-
-  if (loading)
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="w-16 h-16 border-4 border-t-transparent border-gray-200 rounded-full animate-spin"></div>
-      </div>
-    );
+  }, [id, setLoading]);
 
   if (!produto)
     return <p className="text-center mt-5">Produto não encontrado</p>;
@@ -55,7 +49,7 @@ const DetalhesProduto = () => {
     <div className="container mx-auto p-8">
       <div className="flex flex-col items-center bg-white shadow-md rounded-lg overflow-hidden">
         <img
-          src={produto.imagemUrl}
+          src={produto.imagemUrl1}
           alt={produto.nome}
           className="w-full max-w-md h-auto object-cover mx-auto mb-6"
         />
