@@ -33,7 +33,7 @@ const NavBar = () => {
           </button>
         </div>
 
-        {/* Links das Categorias */}
+        {/* Links das Categorias e Página Institucional (Desktop) */}
         <div className="hidden md:flex space-x-8 text-white">
           {data.categorias.map((categoria) => (
             <Link
@@ -44,13 +44,19 @@ const NavBar = () => {
               {categoria.nome}
             </Link>
           ))}
+          {/* Adicionando o link para a página institucional */}
+          <Link
+            to="/PaginaInstitucional"
+            className="text-lg hover:text-gray-300 transition-colors"
+          >
+            Página Institucional
+          </Link>
         </div>
 
-       
         <CartWidget />
       </div>
 
-      {/* Menu dropdown Hamburguer */}
+      {/* Menu dropdown Hamburguer (Mobile) */}
       {menuOpen && (
         <div className="md:hidden mt-2 bg-green-500 text-white space-y-2 p-4">
           {data.categorias.map((categoria) => (
@@ -63,6 +69,14 @@ const NavBar = () => {
               {categoria.nome}
             </Link>
           ))}
+          {/* Adicionando o link para a página institucional no menu dropdown */}
+          <Link
+            to="/PaginaInstitucional"
+            onClick={() => setMenuOpen(false)}  // Fecha o menu ao clicar no link
+            className="block hover:text-gray-300 transition-colors"
+          >
+            Página Institucional
+          </Link>
         </div>
       )}
     </nav>
