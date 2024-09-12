@@ -24,7 +24,7 @@ root.render(
           <Route path="/categoria/:id" element={<Home />} />
           <Route path="/item/:id" element={<Detalhes />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/PaginaInstitucional" element= {<PaginaInstitucional />} />
+          <Route path="/oprojeto" element= {<PaginaInstitucional />} />
         </Routes>
       </LoadingProvider>
     </CartProvider>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import produtos from "../../data/produtos.json";
 import { useLoading } from "../../context/LoadingContex";
 import { useCart } from "../../context/CartContext";
@@ -11,6 +11,7 @@ import "../../pages/detalhes/detalhes.css"; // CSS correto do Swiper no contexto
 
 const DetalhesProduto = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate(); // Hook para navegação
   const [produto, setProduto] = useState<Produto | undefined>();
   const { loading, setLoading } = useLoading();
   const { addItem, isInCart } = useCart();
@@ -49,14 +50,33 @@ const DetalhesProduto = () => {
 
   return (
     <div className="container mx-auto p-8">
-      <div className="flex flex-col items-center bg-white shadow-md rounded-lg overflow-hidden">
-        <CustomSwiper images={imagens} />
-        <div className="p-6 text-center">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">{produto.nome}</h1>
-          <p className="text-gray-600 mb-4">{produto.descricao}</p>
-          <p className="text-xl font-semibold text-green-600 mb-4">R$ {produto.price}</p>
-          <p className="text-gray-600 mb-4">Estoque: {produto.estoque}</p>
+      {/* Botão de Voltar */}
+      <button
+        onClick={() => navigate(-1)}
+        className="mb-4 px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+      >
+        Voltar
+      </button>
 
+      {/* Nome do Produto no topo */}
+      <h1 className="text-4xl font-bold text-center mb-8">{produto.nome}</h1>
+
+      {/* Divisão entre Carrossel e Informações */}
+      <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+        {/* Carrossel à esquerda com largura de 75% */}
+        <div className="md:w-3/4 w-full">
+          <CustomSwiper images={imagens} />
+        </div>
+
+        {/* Informações do produto à direita */}
+        <div className="md:w-1/4 w-full space-y-6">
+          {/* Descrição do Produto (maior) */}
+          <p className="text-lg text-gray-700">{produto.descricao}</p>
+
+          {/* Preço (maior) */}
+          <p className="text-2xl font-semibold text-green-600">R$ {produto.price}</p>
+
+          {/* Botões */}
           <div className="flex justify-center items-center mt-2">
             {addedToCart ? (
               <Link to="/cart">
@@ -76,12 +96,16 @@ const DetalhesProduto = () => {
             )}
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 m-4">
-            Mais Informações
-          </h2>
-          <p className="text-gray-600 mb-4">{produto.detalhe1}</p>
-          <p className="text-gray-600 mb-4">{produto.detalhe2}</p>
+          {/* Estoque (menor) */}
+          <p className="text-sm text-gray-600">Estoque: {produto.estoque}</p>
         </div>
+      </div>
+
+      {/* Mais informações abaixo da divisão */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Mais Informações</h2>
+        <p className="text-gray-600 mb-4">{produto.detalhe1}</p>
+        <p className="text-gray-600 mb-4">{produto.detalhe2}</p>
       </div>
     </div>
   );

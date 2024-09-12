@@ -46,10 +46,10 @@ const NavBar = () => {
           ))}
           {/* Adicionando o link para a página institucional */}
           <Link
-            to="/PaginaInstitucional"
+            to="/oprojeto"
             className="text-lg hover:text-gray-300 transition-colors"
           >
-            Página Institucional
+            O Projeto
           </Link>
         </div>
 
@@ -71,11 +71,11 @@ const NavBar = () => {
           ))}
           {/* Adicionando o link para a página institucional no menu dropdown */}
           <Link
-            to="/PaginaInstitucional"
+            to="/oprojeto"
             onClick={() => setMenuOpen(false)}  // Fecha o menu ao clicar no link
             className="block hover:text-gray-300 transition-colors"
           >
-            Página Institucional
+            O Projeto
           </Link>
         </div>
       )}

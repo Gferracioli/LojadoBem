@@ -24,7 +24,7 @@ const PaginaInstitucional: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-neutral-100">
       {/* Seção de Missão e Como Funciona */}
       <div className="container mx-auto py-12 space-y-8">
         {/* Nossa Missão */}
@@ -44,7 +44,7 @@ const PaginaInstitucional: React.FC = () => {
 
         {/* Como Funciona */}
         <section>
-          <h2 className="text-3xl font-bold text-center text-violet-800 mb-6">
+          <h2 className="text-3xl font-bold text-center text-violet-950 mb-6">
             Como Funciona
           </h2>
           <p className="text-gray-700 text-lg leading-relaxed text-center mx-auto max-w-4xl">
@@ -61,7 +61,7 @@ const PaginaInstitucional: React.FC = () => {
       <div className="bg-white py-12">
         <div className="container mx-auto">
           {/* Título da Página */}
-          <h1 className="text-4xl font-bold text-center text-violet-800 mb-8">
+          <h1 className="text-4xl font-bold text-center text-violet-950 mb-8">
             Nossos Projetos
           </h1>
 

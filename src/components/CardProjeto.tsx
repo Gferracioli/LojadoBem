@@ -8,24 +8,27 @@ interface CardProjetoProps {
 
 const CardProjeto: React.FC<CardProjetoProps> = ({ produto }) => {
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="flex bg-white border border-gray-300 rounded-lg shadow-md transition-transform transform hover:scale-105 overflow-hidden">
       {/* Imagem do Produto */}
-      <img src={produto.imagemUrl1} alt={produto.nome} className="w-full h-48 object-cover" />
+      <div className="w-1/3">
+        <img
+          src={produto.imagemUrl1}
+          alt={produto.nome}
+          className="w-full h-full object-cover"
+        />
+      </div>
       
       {/* Conteúdo do Card */}
-      <div className="p-4">
+      <div className="w-2/3 p-4 flex flex-col justify-between">
         {/* Nome do Produto */}
         <h3 className="text-xl font-bold mb-2">{produto.nome}</h3>
         
-        {/* Descrição Curta */}
-        <p className="text-gray-700 mb-4">{produto.descricao}</p>
-        
         {/* Link para detalhes */}
         <Link to={`/item/${produto.id}`}>
-            <button className="px-2 py-1 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition w-full">
-              Ver Detalhes
-            </button>
-          </Link>
+          <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition">
+            Ver Detalhes
+          </button>
+        </Link>
       </div>
     </div>
   );

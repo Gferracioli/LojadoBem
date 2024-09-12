@@ -3,7 +3,7 @@ import ItemListContainer from "../../components/ItemListContainer";
 
 const Home: React.FC = () => {
   return (
-    <div>
+    <div className="bg-neutral-100">
       <ItemListContainer />
     </div>
   );

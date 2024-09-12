@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const { cart, removeItem, clearCart, updateItemQuantity } = useCart();
+ 
 
   // Calcular o total da compra
   const calcularTotal = () => {
@@ -12,6 +15,12 @@ const Cart = () => {
   // Renderização do carrinho de compras
   return (
     <div className="container mx-auto p-8">
+      <button
+        onClick={() => navigate(-1)}
+        className="mb-4 px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+      >
+        Voltar
+      </button>
       <h1 className="text-3xl font-bold mb-6">Carrinho de Compras</h1>
       {/*Verifica se o carrinho está vazio */}
       {cart.length === 0 ? (
