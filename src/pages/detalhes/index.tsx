@@ -7,7 +7,7 @@ import ItemCount from "../../components/ItemCount";
 import { Link } from "react-router-dom";
 import { Produto } from "../../interfaces/produto.interface";
 import { CustomSwiper } from "../../components/Swiper/CustomSwiper";
-import "../../pages/detalhes/detalhes.css";
+import "../../pages/detalhes/detalhes.css"; // CSS correto do Swiper no contexto de detalhes
 
 const DetalhesProduto = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,7 +26,7 @@ const DetalhesProduto = () => {
         resolve(itemEncontrado);
       }, 500);
     });
-    // separar em outro usereffect
+
     getProduto.then((data) => {
       setProduto(data);
       setLoading(false);
@@ -36,8 +36,7 @@ const DetalhesProduto = () => {
     });
   }, [id, setLoading]);
 
-  if (!produto)
-    return <p className="text-center mt-5">Produto não encontrado</p>;
+  if (!produto) return <p className="text-center mt-5">Produto não encontrado</p>;
 
   const handleAddToCart = (quantity: number) => {
     if (produto) {
@@ -45,19 +44,17 @@ const DetalhesProduto = () => {
       setAddedToCart(true);
     }
   };
+
   const imagens = [produto.imagemUrl1, produto.imagemUrl2, produto.imagemUrl3];
+
   return (
     <div className="container mx-auto p-8">
       <div className="flex flex-col items-center bg-white shadow-md rounded-lg overflow-hidden">
-        <div><CustomSwiper images={imagens} /></div>
+        <CustomSwiper images={imagens} />
         <div className="p-6 text-center">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            {produto.nome}
-          </h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">{produto.nome}</h1>
           <p className="text-gray-600 mb-4">{produto.descricao}</p>
-          <p className="text-xl font-semibold text-green-600 mb-4">
-            R$ {produto.price}
-          </p>
+          <p className="text-xl font-semibold text-green-600 mb-4">R$ {produto.price}</p>
           <p className="text-gray-600 mb-4">Estoque: {produto.estoque}</p>
 
           <div className="flex justify-center items-center mt-2">
@@ -84,12 +81,6 @@ const DetalhesProduto = () => {
           </h2>
           <p className="text-gray-600 mb-4">{produto.detalhe1}</p>
           <p className="text-gray-600 mb-4">{produto.detalhe2}</p>
-          <h2 className="text-xl font-bold text-gray-800 mb-4 m-4">
-            Lembre-se: Ao adquirir um produto da Loja do Bem, você estará
-            contribuindo diretamente para a realização dessas ações e
-            transformando a vida de muitas pessoas. Junte-se a nós nessa jornada
-            de solidariedade e impacto social!
-          </h2>
         </div>
       </div>
     </div>

@@ -1,25 +1,28 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules'; // Importa os módulos de navegação e paginação
 import 'swiper/css';
-import 'swiper/css/navigation'; // Estilos para a navegação (setas)
-import 'swiper/css/pagination'; // Estilos para a paginação (bolinhas)
-import './CustomSwiper.css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import './CustomSwiper.css'; // Mantém o CSS para o Swiper no contexto de detalhes
+import './CardSwiper.css';   // Novo CSS específico para o Swiper nos cards
 
 interface CustomSwiperProps {
-  images: string[]; // Lista de URLs das imagens
+  images: string[];
+  isCard?: boolean;  // Adicionamos uma prop opcional para indicar que é um card
 }
 
-export const CustomSwiper = ({ images }: CustomSwiperProps) => {
+export const CustomSwiper = ({ images, isCard }: CustomSwiperProps) => {
   return (
     <Swiper
-      slidesPerView={1} // Exibe uma imagem por vez
-      navigation // Ativa as setas de navegação laterais
-      pagination={{ clickable: true }} // Bolinhas clicáveis para a paginação
-      loop // Permite o loop contínuo das imagens
-      modules={[Navigation, Pagination]} // Ativa os módulos de navegação e paginação
+      className={isCard ? "card-swiper" : ""}
+      slidesPerView={1}
+      navigation
+      pagination={{ clickable: true }}
+      loop
+      modules={[Navigation, Pagination]}
     >
       {images.map((imageUrl, index) => (
-        <SwiperSlide key={index}>
+        <SwiperSlide key={index} className={isCard ? "card-swiper-slide" : ""}>
           <img src={imageUrl} alt={`Slide ${index}`} className="carousel-image" />
         </SwiperSlide>
       ))}

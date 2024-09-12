@@ -1,22 +1,21 @@
 .carousel-image {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
+  width: 100%;
+  /* height: auto; */
+  object-fit: cover;
+}
 /* Estilos para as bolinhas de paginação */
 .swiper-pagination-bullet {
-    background-color: white;
-    opacity: 0.7;
-  }
-  
-  .swiper-pagination-bullet-active {
-    background-color: white;
-    opacity: 1;
-  }
-  
-  /* Personalize as setas de navegação */
-  .swiper-button-prev,
-  .swiper-button-next {
-    color: rgb(76 29 149); /* Cor das setas */
-  }
-  
+  background-color: white;
+  opacity: 0.7;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: white;
+  opacity: 1;
+}
+
+/* Personalize as setas de navegação */
+.swiper-button-prev,
+.swiper-button-next {
+  color: rgb(76 29 149); /* Cor das setas */
+}
