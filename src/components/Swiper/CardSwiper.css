@@ -15,8 +15,8 @@
   /* Personalize as setas de navegação e as bolinhas de paginação para os cards */
   .card-swiper .swiper-button-prev,
   .card-swiper .swiper-button-next {
-    color: white;
-    opacity: 0.8;
+    color: rgb(76 29 149);
+    opacity: 0.6;
   }
   
   .card-swiper .swiper-pagination-bullet {

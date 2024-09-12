@@ -29,7 +29,7 @@ const Home = () => {
   }, [id, setLoading]);
 
   return (
-    <div className="bg-neutral-100 p-6 rounded-lg">
+    <div className="bg-neutral-100 p-6 rounded-lg mx-auto">
       <ItemList items={items} /> {/* Passando os itens para o ItemList */}
     </div>
   );
