@@ -1,0 +1,19 @@
+/* Definindo o tamanho das imagens e garantindo que elas se ajustem corretamente */
+.carousel-image {
+    width: 100%; /* Faz com que a imagem ocupe 100% do espaço */
+    height: auto; /* Mantém a proporção correta */
+    object-fit: cover; /* Garante que a imagem não seja distorcida */
+  }
+  
+  /* Swiper CSS adicional para garantir que funcione corretamente */
+  .swiper {
+    width: 100%; /* Garante que o swiper ocupe toda a largura disponível */
+    max-width: 600px; /* Define um tamanho máximo para o swiper */
+    height: 400px; /* Altura fixa do swiper */
+  }
+  
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

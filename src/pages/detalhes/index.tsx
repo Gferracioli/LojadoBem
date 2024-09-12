@@ -6,6 +6,8 @@ import { useCart } from "../../context/CartContext";
 import ItemCount from "../../components/ItemCount";
 import { Link } from "react-router-dom";
 import { Produto } from "../../interfaces/produto.interface";
+import { CustomSwiper } from "../../components/Swiper/CustomSwiper";
+import "../../pages/detalhes/detalhes.css";
 
 const DetalhesProduto = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,7 +17,6 @@ const DetalhesProduto = () => {
   const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
-    console.log("entrou aqui")
     const getProduto = new Promise<Produto | undefined>((resolve) => {
       setLoading(true);
       setTimeout(() => {
@@ -25,7 +26,7 @@ const DetalhesProduto = () => {
         resolve(itemEncontrado);
       }, 500);
     });
- // separar em outro usereffect
+    // separar em outro usereffect
     getProduto.then((data) => {
       setProduto(data);
       setLoading(false);
@@ -44,15 +45,11 @@ const DetalhesProduto = () => {
       setAddedToCart(true);
     }
   };
-
+  const imagens = [produto.imagemUrl1, produto.imagemUrl2, produto.imagemUrl3];
   return (
     <div className="container mx-auto p-8">
       <div className="flex flex-col items-center bg-white shadow-md rounded-lg overflow-hidden">
-        <img
-          src={produto.imagemUrl1}
-          alt={produto.nome}
-          className="w-full max-w-md h-auto object-cover mx-auto mb-6"
-        />
+        <div><CustomSwiper images={imagens} /></div>
         <div className="p-6 text-center">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
             {produto.nome}
@@ -65,11 +62,14 @@ const DetalhesProduto = () => {
 
           <div className="flex justify-center items-center mt-2">
             {addedToCart ? (
-             <Link to="/cart">
-             <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition" type="button">
-               Adicionado ao carrinho
-             </button>
-             </Link>
+              <Link to="/cart">
+                <button
+                  className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+                  type="button"
+                >
+                  Adicionado ao carrinho
+                </button>
+              </Link>
             ) : (
               <ItemCount
                 inicial={1}
