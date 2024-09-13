@@ -16,7 +16,7 @@ const Footer = () => {
         {/* Developer Info and Social Icons */}
         <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
           <span className="text-white text-sm text-center md:text-left">
-            Desenvolvido por Gustavo Ferracioli 2024
+            Desenvolvido por Gustavo Ferracioli - 2024
           </span>
           <div className="flex space-x-4">
             <a
