@@ -9,6 +9,7 @@ import Cart from "./pages/cart";
 import { LoadingProvider } from "../src/context/LoadingContex"; // Importa o hook do contexto de Loading
 import { CartProvider } from "../src/context/CartContext"; // importa cart
 import PaginaInstitucional from "./pages/AboutUs";
+import Footer from "./components/footer";
 
 
 const root = ReactDOM.createRoot(
@@ -26,6 +27,7 @@ root.render(
           <Route path="/cart" element={<Cart />} />
           <Route path="/oprojeto" element= {<PaginaInstitucional />} />
         </Routes>
+        <Footer />
       </LoadingProvider>
     </CartProvider>
   </BrowserRouter>
