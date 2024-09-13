@@ -1,69 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import CartWidget from "./CartWidget";
-import data from "../data/produtos.json";
-import { CiMenuBurger } from "react-icons/ci"; // Importar o ícone do react-icons
-import { FaGithub } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
-
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  // Toggle
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
   return (
-    <footer className="bg-violet-950 shadow-md">
-      <div className="container mx-auto flex items-center justify-between">
-        {/* Logo e Nome da Loja */}
-        <div className="flex items-center space-x">
+    <footer className="bg-violet-950 shadow-md p-4">
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
+        {/* Logo */}
+        <div className="flex items-center space-x-4 mb-4 md:mb-0">
           <Link to="/">
-            <img src="/assets/img/logo.png" alt="Logo" className="w-25 h-25" />
+            <img src="/assets/img/logo.png" alt="Logo" className="w-[80px]" />
           </Link>
         </div>
 
-        <div>
-          {/* Adicionando o link para a página institucional */}
-          <Link
-            to="/oprojeto"
-            className="text-lg hover:text-gray-300 transition-colors"
-          >
-            O Projeto
-          </Link>
-        </div>
-        <a href="https://github.com/Gferracioli/LojadoBem"><FaGithub className="text-white w-8 h-8" /></a>
-        <a href="https://www.linkedin.com/in/gustavo-ferracioli/"><FaLinkedin className="text-white w-8 h-8" /></a>
-
-        
-        
-      </div>
-
-      {/* Menu dropdown Hamburguer (Mobile) */}
-      {menuOpen && (
-        <div className="md:hidden mt-2 bg-green-500 text-white space-y-2 p-4">
-          {data.categorias.map((categoria) => (
-            <Link
-              key={categoria.id}
-              to={`/categoria/${categoria.id}`}
-              onClick={() => setMenuOpen(false)}  // Fecha o menu ao clicar em um link
-              className="block hover:text-gray-300 transition-colors"
+        {/* Developer Info and Social Icons */}
+        <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+          <span className="text-white text-sm text-center md:text-left">
+            Desenvolvido por Gustavo Ferracioli 2024
+          </span>
+          <div className="flex space-x-4">
+            <a
+              href="https://github.com/Gferracioli/LojadoBem"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white"
             >
-              {categoria.nome}
-            </Link>
-          ))}
-          {/* Adicionando o link para a página institucional no menu dropdown */}
-          <Link
-            to="/oprojeto"
-            onClick={() => setMenuOpen(false)}  // Fecha o menu ao clicar no link
-            className="block hover:text-gray-300 transition-colors"
-          >
-            O Projeto
-          </Link>
+              <FaGithub className="w-6 h-6" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/gustavo-ferracioli/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white"
+            >
+              <FaLinkedin className="w-6 h-6" />
+            </a>
+          </div>
         </div>
-      )}
+      </div>
     </footer>
   );
 };
