@@ -10,6 +10,7 @@ import { LoadingProvider } from "../src/context/LoadingContex"; // Importa o hoo
 import { CartProvider } from "../src/context/CartContext"; // importa cart
 import PaginaInstitucional from "./pages/AboutUs";
 import Footer from "./components/Footer";
+import AdminDashboard from "./pages/admin/index";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -25,6 +26,7 @@ root.render(
           <Route path="/item/:id" element={<Detalhes />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/oprojeto" element={<PaginaInstitucional />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
         <Footer />
       </LoadingProvider>
