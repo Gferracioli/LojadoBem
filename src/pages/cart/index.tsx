@@ -44,9 +44,9 @@ const Cart = () => {
         </button>
       </div>
 
-      {/* Two Sections, 1 for the items the other for summary */}
+      
       <div className="flex flex-col lg:flex-row lg:space-x-8">
-        {/* Left Column: Cart Items */}
+        {/* Esquerda: Cart Items */}
         <div className="lg:w-3/4">
           {cart.map((item: Produto) => (
             <div
@@ -99,7 +99,7 @@ const Cart = () => {
           ))}
         </div>
 
-        {/* Right Column: Summary Box */}
+        {/* Direita: Resumo */}
         <div className="lg:w-1/4 bg-gray-100 p-6 rounded-lg mt-8 lg:mt-0">
           <h2 className="text-2xl font-bold mb-4">Resumo</h2>
           <div className="mb-2 flex justify-between">
