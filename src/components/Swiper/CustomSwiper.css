@@ -1,7 +1,11 @@
 .carousel-image {
   width: 100%;
-  /* height: auto; */
   object-fit: cover;
+}
+@media (max-width: 640px) { /* Tailwind's sm - mobile */
+  .carousel-image {
+    height: 150px;
+  }
 }
 /* Estilos para as bolinhas de paginação */
 .swiper-pagination-bullet {

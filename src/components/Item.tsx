@@ -19,7 +19,7 @@ const Item = (produto: Produto) => {
   const imagens = [produto.imagemUrl1, produto.imagemUrl2, produto.imagemUrl3];
 
   return (
-    <div className="max-w-sm  bg-white border border-gray-300 rounded-lg shadow-md transition-transform transform hover:scale-105 m-4 flex flex-col justify-between">
+    <div className="w-full sm:max-w-sm bg-white border border-gray-300 rounded-lg shadow-md transition-transform transform hover:scale-105 mx-auto m-4 flex flex-col justify-between">
      <Link to={`/item/${produto.id}`}>
        {/* Passamos a prop isCard */}
        <CustomSwiper images={imagens} isCard />

@@ -8,20 +8,12 @@ interface Props {
 
 const ItemList = ({ items }: Props) => {
   return (
-    <div style={styles.grid}>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {items.map((item) => (
         <Item key={item.id} {...item} />
       ))}
     </div>
   );
-};
-
-const styles = {
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-    gap: "0.5rem",
-  },
 };
 
 export default ItemList;
