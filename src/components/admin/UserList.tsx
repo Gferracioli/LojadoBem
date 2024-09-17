@@ -2,8 +2,11 @@ import React from 'react';
 
 const UserList = () => {
   const users = [
-    { id: 1, nome: 'User 1', status: 'Admin' },
-    { id: 2, nome: 'User 2', status: 'User' },
+    { id: 1, nome: 'Criador', status: 'Admin' },
+    { id: 3, nome: 'Professor', status: 'Admin' },
+    { id: 4, nome: 'Aluno 1', status: 'User' },
+    { id: 5, nome: 'Aluno 2', status: 'User' },
+    { id: 6, nome: 'Aluno 3', status: 'User' },
     // Add more sample users here
   ];
 
