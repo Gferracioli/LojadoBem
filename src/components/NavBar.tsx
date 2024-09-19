@@ -31,7 +31,7 @@ const NavBar = () => {
             </Link>
           </div>
 
-          {/* Cart on the right */}
+          
           <div className="ml-2">
             <CartWidget />
           </div>
