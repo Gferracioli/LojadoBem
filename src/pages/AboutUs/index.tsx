@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from "react";
 import CardProjeto from "../../components/CardProjeto";
-import { Produto } from "../../interfaces/produto.interface";
-import produtos from "../../data/produtos.json"; // Importa o JSON com os produtos
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebaseConfig"; // Firestore configuration
 
 const PaginaInstitucional: React.FC = () => {
-  const [items, setItems] = useState<Produto[]>([]);
+  const [items, setItems] = useState<any[]>([]); // Dynamically store fetched products from Firestore
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Simulando o carregamento dos produtos com Promise
+  // Fetch products from Firestore
   useEffect(() => {
-    setLoading(true);
+    const fetchItems = async () => {
+      setLoading(true);
+      try {
+        const productCollectionRef = collection(db, "Produtos");
+        const productSnapshot = await getDocs(productCollectionRef);
 
-    const getItems = new Promise<Produto[]>((resolve) => {
-      setTimeout(() => {
-        resolve(produtos.produtos);
-      }, 2000);
-    });
+        // Map over the fetched products and extract necessary data
+        const productsList = productSnapshot.docs.map((doc) => ({
+          id: doc.id, // Use Firestore document ID
+          ...doc.data(), // Spread the rest of the product data
+        }));
 
-    getItems.then((data) => {
-      setItems(data);
-      setLoading(false);
-    });
+        setItems(productsList); // Set fetched products in state
+      } catch (error) {
+        console.error("Erro ao buscar produtos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchItems();
   }, []);
 
   return (
@@ -71,7 +80,7 @@ const PaginaInstitucional: React.FC = () => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
               {items.map((produto) => (
-                <CardProjeto key={produto.id} produto={produto} />
+                <CardProjeto key={produto.id} produtoId={produto.id} /> // Pass only produtoId
               ))}
             </div>
           )}

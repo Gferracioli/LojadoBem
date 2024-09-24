@@ -1,11 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CartWidget from "./CartWidget";
-import data from "../data/produtos.json";
-import { CiMenuBurger } from "react-icons/ci"; // Importar o ícone do react-icons
+import { CiMenuBurger } from "react-icons/ci"; // Import the hamburger icon
+import { collection, getDocs } from "firebase/firestore"; // Firestore functions
+import { db } from "../firebaseConfig"; // Firestore configuration
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [categorias, setCategorias] = useState<any[]>([]); // Store categories from Firestore
+
+  // Fetch categories from Firestore
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const categoriaCollectionRef = collection(db, "Categorias"); // Reference to Firestore "categorias" collection
+        const categoriaSnapshot = await getDocs(categoriaCollectionRef); // Fetch categories
+        const categoriaList = categoriaSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setCategorias(categoriaList); // Set categories in state
+      } catch (error) {
+        console.error("Erro ao buscar categorias:", error);
+      }
+    };
+
+    fetchCategorias();
+  }, []);
 
   // Toggle the hamburger menu
   const toggleMenu = () => {
@@ -31,13 +53,12 @@ const NavBar = () => {
             </Link>
           </div>
 
-          
           <div className="ml-2">
             <CartWidget />
           </div>
         </div>
 
-        {/* Desktop Layout (Unchanged) */}
+        {/* Desktop Layout */}
         <div className="hidden md:flex items-center justify-between w-full">
           {/* Logo and Store Name */}
           <div className="flex items-center space-x-4">
@@ -49,7 +70,7 @@ const NavBar = () => {
 
           {/* Links (Categories) in the middle */}
           <div className="flex space-x-8 text-white">
-            {data.categorias.map((categoria) => (
+            {categorias.map((categoria) => (
               <Link
                 key={categoria.id}
                 to={`/categoria/${categoria.id}`}
@@ -74,7 +95,7 @@ const NavBar = () => {
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
         <div className="md:hidden mt-2 bg-green-500 text-white space-y-2 p-4">
-          {data.categorias.map((categoria) => (
+          {categorias.map((categoria) => (
             <Link
               key={categoria.id}
               to={`/categoria/${categoria.id}`}

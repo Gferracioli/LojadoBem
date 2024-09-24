@@ -6,8 +6,8 @@ import { useCart } from "../context/CartContext"; // Importa o contexto do carri
 const CartWidget = () => {
   const { cart } = useCart(); // Acessa o estado do carrinho
 
-  // Calcula a quantidade total de itens no carrinho
-  const totalItems = cart.reduce((acc, item) => acc + item.quantidade, 0);
+  // Calcula a quantidade total de itens no carrinho acessando 'productData.quantidade'
+  const totalItems = cart.reduce((acc, item) => acc + (item.productData?.quantidade || 0), 0);
 
   return (
     <div className="relative">

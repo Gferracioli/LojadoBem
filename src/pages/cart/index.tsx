@@ -1,27 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { Produto } from "../../interfaces/produto.interface"; // Import the Produto interface
-import imagem from "../../../public/assets/img/logo.png"
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig"; // Firestore configuration
 
 const Cart = () => {
   const navigate = useNavigate();
   const { cart, removeItem, updateItemQuantity } = useCart();
+  const [products, setProducts] = useState<any[]>([]); // No need for Produto interface
 
-  // Calculo do total
+  // Fetch product details from Firestore
+  const fetchProductDetails = async () => {
+    const updatedProducts = await Promise.all(
+      cart.map(async (cartItem) => {
+        const productRef = doc(db, "Produtos", cartItem.id); // Fetch product document from Firestore
+        const productSnap = await getDoc(productRef);
+
+        if (productSnap.exists()) {
+          const productData = productSnap.data();
+          return {
+            ...cartItem,
+            price: productData.price, // Get price from Firestore
+            estoque: productData.estoque, // Get stock from Firestore
+            imagemUrl1: productData.imagemUrl1, // Get image URL from Firestore
+            nome: productData.nome, // Get product name from Firestore
+          };
+        }
+        return cartItem; // In case the product is not found, return the cart item
+      })
+    );
+    setProducts(updatedProducts); // Update products in the state
+  };
+
+  // Fetch product details on page load and when the cart changes
+  useEffect(() => {
+    fetchProductDetails();
+  }, [cart]); // Re-fetch when the cart changes
+
+  // Calculate the total price
   const calculateTotal = () => {
-    return cart.reduce((acc: number, item: Produto) => acc + item.price * item.quantidade, 0);
+    return products.reduce((acc: number, item) => acc + item.price * item.quantidade, 0);
   };
-  // Calcula a quantidade total de itens pela quantidade
+
+  // Calculate the total quantity
   const getTotalQuantity = () => {
-    return cart.reduce((total: number, item: Produto) => total + item.quantidade, 0);
+    return products.reduce((total: number, item) => total + item.quantidade, 0);
   };
 
-    const handleQuantityChange = (itemId: number, newQuantity: number) => {
-    updateItemQuantity(itemId, newQuantity);
+  // Handle quantity change and check stock availability
+  const handleQuantityChange = (itemId: string, newQuantity: number) => {
+    const product = products.find((prod) => prod.id === itemId);
+    if (product && product.estoque && newQuantity <= product.estoque) {
+      updateItemQuantity(itemId, newQuantity); // Update quantity in the cart
+    } else {
+      alert("Quantidade máxima atingida para este item");
+    }
   };
 
-  // Carrinho vazio
+  // If cart is empty
   if (cart.length === 0) {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center p-6 bg-gray-50">
@@ -49,7 +85,7 @@ const Cart = () => {
     <div className="container mx-auto p-8">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-      <h1 className="text-3xl font-bold">Seu carrinho ({getTotalQuantity()} items)</h1>
+        <h1 className="text-3xl font-bold">Seu carrinho ({getTotalQuantity()} itens)</h1>
         <button
           onClick={() => navigate(-1)}
           className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
@@ -58,23 +94,21 @@ const Cart = () => {
         </button>
       </div>
 
-      
       <div className="flex flex-col lg:flex-row lg:space-x-8">
-        {/* Esquerda: Cart Items */}
+        {/* Left: Cart Items */}
         <div className="lg:w-3/4">
-          {cart.map((item: Produto) => (
+          {products.map((item) => (
             <div
               key={item.id}
               className="flex flex-col md:flex-row items-center justify-between border-b py-4"
             >
-            
+              {/* Display product image */}
               <img
                 src={item.imagemUrl1}
                 alt={item.nome}
                 className="w-32 h-32 object-cover mb-4 md:mb-0"
               />
 
-              
               <div className="flex-1 md:ml-6">
                 <h2 className="text-lg font-bold">{item.nome}</h2>
                 <p className="text-sm text-gray-600">Preço: ${item.price}</p>
@@ -92,7 +126,7 @@ const Cart = () => {
                   <button
                     onClick={() => handleQuantityChange(item.id, item.quantidade + 1)}
                     className="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition"
-                    disabled={item.quantidade >= item.estoque} 
+                    disabled={item.quantidade >= (item.estoque || 0)}
                   >
                     +
                   </button>
@@ -100,7 +134,6 @@ const Cart = () => {
                 <p className="text-sm text-gray-600">Estoque: {item.estoque}</p>
               </div>
 
-              
               <div className="md:ml-4">
                 <button
                   onClick={() => removeItem(item.id)}
@@ -113,7 +146,7 @@ const Cart = () => {
           ))}
         </div>
 
-        {/* Direita: Resumo */}
+        {/* Right: Summary */}
         <div className="lg:w-1/4 bg-gray-100 p-6 rounded-lg mt-8 lg:mt-0">
           <h2 className="text-2xl font-bold mb-4">Resumo</h2>
           <div className="mb-2 flex justify-between">
@@ -122,7 +155,7 @@ const Cart = () => {
           </div>
           <div className="mb-2 flex justify-between">
             <span>Frete</span>
-            <span>$0.00</span> {/* You can modify this later */}
+            <span>$0.00</span> {/* Placeholder for shipping */}
           </div>
           <div className="mb-2 flex justify-between font-bold">
             <span>Total</span>

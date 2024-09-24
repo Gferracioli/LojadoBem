@@ -1,47 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import produtos from "../../data/produtos.json";
 import { useLoading } from "../../context/LoadingContex";
 import { useCart } from "../../context/CartContext";
 import ItemCount from "../../components/ItemCount";
 import { Link } from "react-router-dom";
-import { Produto } from "../../interfaces/produto.interface";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig"; // Firestore config
 import { CustomSwiper } from "../../components/Swiper/CustomSwiper";
 import "../../pages/detalhes/detalhes.css"; // CSS correto do Swiper no contexto de detalhes
 
 const DetalhesProduto = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate(); // Hook para navegação
-  const [produto, setProduto] = useState<Produto | undefined>();
+  const [produto, setProduto] = useState<any | null>(null); // Dynamic type from Firestore
   const { loading, setLoading } = useLoading();
   const { addItem, isInCart } = useCart();
   const [addedToCart, setAddedToCart] = useState(false);
 
+  // Fetch product data from Firestore using the product ID
   useEffect(() => {
-    const getProduto = new Promise<Produto | undefined>((resolve) => {
+    const fetchProduct = async () => {
       setLoading(true);
-      setTimeout(() => {
-        const itemEncontrado = produtos.produtos.find(
-          (item) => item.id === Number(id)
-        );
-        resolve(itemEncontrado);
-      }, 500);
-    });
+      try {
+        if (!id) {
+          console.error("Product ID is undefined");
+          return; // Exit early if the ID is undefined
+        }
 
-    getProduto.then((data) => {
-      setProduto(data);
-      setLoading(false);
-      if (data && isInCart(data.id)) {
-        setAddedToCart(true);
+        const productRef = doc(db, "Produtos", id as string); // Type assertion ensures `id` is a string
+        const productSnap = await getDoc(productRef); // Fetch document
+
+        if (productSnap.exists()) {
+          setProduto(productSnap.data()); // Set product data from Firestore
+          if (isInCart(id)) {
+            setAddedToCart(true); // Check if the product is in the cart
+          }
+        } else {
+          console.error("Produto não encontrado");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar produto:", error);
+      } finally {
+        setLoading(false);
       }
-    });
-  }, [id, setLoading]);
+    };
+
+    fetchProduct();
+  }, [id, setLoading, isInCart]);
 
   if (!produto) return <p className="text-center mt-5">Produto não encontrado</p>;
 
+  // Handle adding to the cart with correct parameters
   const handleAddToCart = (quantity: number) => {
     if (produto) {
-      addItem(produto, quantity);
+      addItem(id as string, produto, quantity); // Corrected to pass product ID, product data, and quantity
       setAddedToCart(true);
     }
   };
@@ -70,10 +82,10 @@ const DetalhesProduto = () => {
 
         {/* Informações do produto à direita */}
         <div className="md:w-1/4 w-full space-y-6">
-          {/* Descrição do Produto (maior) */}
+          {/* Descrição do Produto */}
           <p className="text-lg text-gray-700">{produto.descricao}</p>
 
-          {/* Preço (maior) */}
+          {/* Preço */}
           <p className="text-2xl font-semibold text-green-600">R$ {produto.price}</p>
 
           {/* Botões */}
@@ -88,15 +100,11 @@ const DetalhesProduto = () => {
                 </button>
               </Link>
             ) : (
-              <ItemCount
-                inicial={1}
-                estoque={produto.estoque}
-                onAdd={handleAddToCart}
-              />
+              <ItemCount inicial={1} estoque={produto.estoque} onAdd={handleAddToCart} />
             )}
           </div>
 
-          {/* Estoque (menor) */}
+          {/* Estoque */}
           <p className="text-sm text-gray-600">Estoque: {produto.estoque}</p>
         </div>
       </div>
