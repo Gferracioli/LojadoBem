@@ -1,63 +1,95 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig"; // Firestore configuration
 
 const Cart = () => {
   const navigate = useNavigate();
   const { cart, removeItem, updateItemQuantity } = useCart();
-  const [products, setProducts] = useState<any[]>([]); // No need for Produto interface
+  const [products, setProducts] = useState<any[]>([]);
 
-  // Fetch product details from Firestore
+  // Função para buscar os detalhes dos produtos a partir do Firestore
   const fetchProductDetails = async () => {
     const updatedProducts = await Promise.all(
       cart.map(async (cartItem) => {
-        const productRef = doc(db, "Produtos", cartItem.id); // Fetch product document from Firestore
+        const productRef = doc(db, "Produtos", cartItem.id);
         const productSnap = await getDoc(productRef);
 
         if (productSnap.exists()) {
           const productData = productSnap.data();
           return {
             ...cartItem,
-            price: productData.price, // Get price from Firestore
-            estoque: productData.estoque, // Get stock from Firestore
-            imagemUrl1: productData.imagemUrl1, // Get image URL from Firestore
-            nome: productData.nome, // Get product name from Firestore
+            price: productData.price || 0, // Garantir que price seja numérico
+            estoque: productData.estoque || 0, // Garantir que estoque seja numérico
+            imagemUrl1: productData.imagemUrl1,
+            nome: productData.nome,
+            quantidade: cartItem.productData.quantidade || 0, // Ajuste: acessando quantidade dentro de productData
           };
         }
-        return cartItem; // In case the product is not found, return the cart item
+        return cartItem; // Retorna o item original caso não encontrado
       })
     );
-    setProducts(updatedProducts); // Update products in the state
+    setProducts(updatedProducts); // Atualiza os produtos no estado
   };
 
-  // Fetch product details on page load and when the cart changes
   useEffect(() => {
     fetchProductDetails();
-  }, [cart]); // Re-fetch when the cart changes
+  }, [cart]);
 
-  // Calculate the total price
+  // Função para calcular o total (garantir que só valores numéricos sejam somados)
   const calculateTotal = () => {
-    return products.reduce((acc: number, item) => acc + item.price * item.quantidade, 0);
+    return products.reduce((acc: number, item) => {
+      const itemTotal = item.price * (item.quantidade || 0); // Certificar que quantidade e preço são válidos
+      return acc + itemTotal;
+    }, 0);
   };
 
-  // Calculate the total quantity
+  // Função para calcular a quantidade total de itens (evitar NaN)
   const getTotalQuantity = () => {
-    return products.reduce((total: number, item) => total + item.quantidade, 0);
+    return products.reduce((total: number, item) => {
+      const quantidade = item.quantidade || 0; // Certificar que quantidade seja numérico
+      return total + quantidade;
+    }, 0);
   };
 
-  // Handle quantity change and check stock availability
-  const handleQuantityChange = (itemId: string, newQuantity: number) => {
+  // Função para alterar a quantidade e verificar o estoque no Firestore
+  const handleQuantityChange = async (itemId: string, newQuantity: number) => {
     const product = products.find((prod) => prod.id === itemId);
     if (product && product.estoque && newQuantity <= product.estoque) {
-      updateItemQuantity(itemId, newQuantity); // Update quantity in the cart
+      updateItemQuantity(itemId, newQuantity); // Atualiza a quantidade no carrinho
+      await updateStockInFirestore(itemId, newQuantity); // Atualiza o estoque no Firestore
     } else {
       alert("Quantidade máxima atingida para este item");
     }
   };
 
-  // If cart is empty
+  // Função para remover o item e atualizar no Firestore
+  const handleRemoveItem = async (itemId: string) => {
+    removeItem(itemId); // Remove o item do estado local
+    await deleteItemFromFirestore(itemId); // Remove o item do Firestore
+  };
+
+  // Função para atualizar o estoque no Firestore
+  const updateStockInFirestore = async (itemId: string, newQuantity: number) => {
+    const productRef = doc(db, "Produtos", itemId);
+    const productSnap = await getDoc(productRef);
+
+    if (productSnap.exists()) {
+      const productData = productSnap.data();
+      const updatedStock = productData.estoque - (newQuantity - productData.quantidade); // Calcula o novo estoque
+
+      await updateDoc(productRef, { estoque: updatedStock }); // Atualiza o estoque no Firestore
+    }
+  };
+
+  // Função para remover o item do Firestore
+  const deleteItemFromFirestore = async (itemId: string) => {
+    const cartRef = doc(db, "cart", itemId);
+    await deleteDoc(cartRef); // Remove o item da coleção 'cart' no Firestore
+  };
+
+  // Exibe o carrinho vazio
   if (cart.length === 0) {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center p-6 bg-gray-50">
@@ -102,7 +134,7 @@ const Cart = () => {
               key={item.id}
               className="flex flex-col md:flex-row items-center justify-between border-b py-4"
             >
-              {/* Display product image */}
+              {/* Exibir imagem do produto */}
               <img
                 src={item.imagemUrl1}
                 alt={item.nome}
@@ -113,7 +145,7 @@ const Cart = () => {
                 <h2 className="text-lg font-bold">{item.nome}</h2>
                 <p className="text-sm text-gray-600">Preço: ${item.price}</p>
 
-                {/* Quantity Controls */}
+                {/* Controles de quantidade */}
                 <div className="flex items-center mt-2">
                   <button
                     onClick={() => handleQuantityChange(item.id, item.quantidade - 1)}
@@ -136,7 +168,7 @@ const Cart = () => {
 
               <div className="md:ml-4">
                 <button
-                  onClick={() => removeItem(item.id)}
+                  onClick={() => handleRemoveItem(item.id)} // Altera para remover o item
                   className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
                 >
                   Remover
@@ -155,7 +187,7 @@ const Cart = () => {
           </div>
           <div className="mb-2 flex justify-between">
             <span>Frete</span>
-            <span>$0.00</span> {/* Placeholder for shipping */}
+            <span>$0.00</span> {/* Placeholder para frete */}
           </div>
           <div className="mb-2 flex justify-between font-bold">
             <span>Total</span>

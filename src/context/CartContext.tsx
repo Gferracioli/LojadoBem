@@ -1,10 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { db } from "../firebaseConfig";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore"; // Inclui updateDoc para atualizações
 
-// Define the CartContextProps interface
 interface CartContextProps {
-  cart: { id: string; productData: any }[]; // Store document ID and product data directly
+  cart: { id: string; productData: any }[];
   addItem: (id: string, productData: any, quantidade: number) => void;
   removeItem: (id: string) => void;
   updateItemQuantity: (id: string, quantidade: number) => void;
@@ -12,7 +11,6 @@ interface CartContextProps {
   isInCart: (id: string) => boolean;
 }
 
-// Default values for CartContext
 const CartContext = createContext<CartContextProps>({
   cart: [],
   addItem: () => null,
@@ -29,13 +27,13 @@ interface CartProviderProps {
 export const CartProvider = ({ children }: CartProviderProps) => {
   const [cart, setCart] = useState<{ id: string; productData: any }[]>([]);
 
-  // Fetch Cart data from Firestore when component mounts
+  // Função para buscar os dados do carrinho no Firestore
   const fetchCartData = async () => {
     const cartCollectionRef = collection(db, "cart");
     const cartSnapshot = await getDocs(cartCollectionRef);
-    const cartItems = cartSnapshot.docs.map(doc => ({
-      id: doc.id, // Document ID from Firestore
-      productData: doc.data(), // Product data fetched directly from Firestore
+    const cartItems = cartSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      productData: doc.data(),
     }));
     setCart(cartItems);
   };
@@ -44,8 +42,8 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     fetchCartData();
   }, []);
 
-  // Add an item to the cart or update the quantity if it exists
-  const addItem = (id: string, productData: any, quantidade: number) => {
+  // Adiciona ou atualiza a quantidade de um item no carrinho
+  const addItem = async (id: string, productData: any, quantidade: number) => {
     const existingItem = cart.find((cartItem) => cartItem.id === id);
 
     let updatedCart;
@@ -60,56 +58,54 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     }
 
     setCart(updatedCart);
-    updateFirestoreCart(updatedCart);
+    await updateFirestoreCart(updatedCart); // Atualiza no Firestore
   };
 
-  // Remove an item from the cart
-  const removeItem = (id: string) => {
+  // Remove um item do carrinho
+  const removeItem = async (id: string) => {
     const updatedCart = cart.filter((cartItem) => cartItem.id !== id);
     setCart(updatedCart);
-    updateFirestoreCart(updatedCart);
+    await updateFirestoreCart(updatedCart); // Atualiza no Firestore
   };
 
-  // Update the quantity of an item in the cart
-  const updateItemQuantity = (id: string, quantidade: number) => {
+  // Atualiza a quantidade de um item no carrinho
+  const updateItemQuantity = async (id: string, quantidade: number) => {
     const updatedCart = cart.map((cartItem) =>
       cartItem.id === id
         ? { ...cartItem, productData: { ...cartItem.productData, quantidade } }
         : cartItem
     );
     setCart(updatedCart);
-    updateFirestoreCart(updatedCart);
+    await updateFirestoreCart(updatedCart); // Atualiza no Firestore
   };
 
-  // Clear the entire cart
-  const clearCart = () => {
+  // Limpa todo o carrinho
+  const clearCart = async () => {
     setCart([]);
-    updateFirestoreCart([]);
+    await updateFirestoreCart([]); // Atualiza no Firestore
   };
 
-  // Check if an item is in the cart
+  // Verifica se um item está no carrinho
   const isInCart = (id: string) => {
     return cart.some((cartItem) => cartItem.id === id);
   };
 
-  // Sync the cart state with Firestore
+  // Atualiza o Firestore com o estado atual do carrinho
   const updateFirestoreCart = async (updatedCart: { id: string; productData: any }[]) => {
     await Promise.all(
       updatedCart.map(async (item) => {
-        const cartDocRef = doc(db, "cart", item.id); // Use document ID from Firestore
-        await setDoc(cartDocRef, item.productData); // Set or update the document for each product
+        const cartDocRef = doc(db, "cart", item.id);
+        await setDoc(cartDocRef, item.productData);
       })
     );
   };
 
   return (
-    <CartContext.Provider
-      value={{ cart, addItem, removeItem, updateItemQuantity, clearCart, isInCart }}
-    >
+    <CartContext.Provider value={{ cart, addItem, removeItem, updateItemQuantity, clearCart, isInCart }}>
       {children}
     </CartContext.Provider>
   );
 };
 
-// Hook to use CartContext
+// Hook para usar o CartContext
 export const useCart = () => useContext(CartContext);

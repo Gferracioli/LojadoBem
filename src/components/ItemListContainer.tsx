@@ -22,10 +22,8 @@ const Home = () => {
         let productQuery;
 
         if (id) {
-          console.log(`Fetching products with category id: ${id}`); // Debugging log
           productQuery = query(productCollectionRef, where("categoria", "==", id));
         } else {
-          console.log("Fetching all products (no category filter)");
           productQuery = productCollectionRef; // Fetch all products if no category is specified
         }
 

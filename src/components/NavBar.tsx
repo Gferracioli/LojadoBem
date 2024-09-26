@@ -73,7 +73,7 @@ const NavBar = () => {
             {categorias.map((categoria) => (
               <Link
                 key={categoria.id}
-                to={`/categoria/${categoria.id}`}
+                to={`/categoria/${categoria.nome}`}
                 className="text-lg hover:text-gray-300 transition-colors"
               >
                 {categoria.nome}

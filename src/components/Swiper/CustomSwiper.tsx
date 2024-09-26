@@ -12,7 +12,9 @@ interface CustomSwiperProps {
 }
 
 export const CustomSwiper = ({ images, isCard }: CustomSwiperProps) => {
+  const randomNumber = Math.floor(Math.random() * 3);
   return (
+    
     <Swiper
       className={isCard ? "card-swiper" : ""}
       slidesPerView={1}
@@ -20,12 +22,14 @@ export const CustomSwiper = ({ images, isCard }: CustomSwiperProps) => {
       pagination={{ clickable: true }}
       loop
       modules={[Navigation, Pagination]}
+      initialSlide={randomNumber} // colocar gerador de numero aleatório
     >
       {images.map((imageUrl, index) => (
         <SwiperSlide key={index} className={isCard ? "card-swiper-slide" : ""}>
           <img src={imageUrl} alt={`Slide ${index}`} className="carousel-image" />
         </SwiperSlide>
       ))}
+      
     </Swiper>
   );
 };
