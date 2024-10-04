@@ -1,4 +1,4 @@
-# Nome do Projeto
+# Loja do Bem
 
 **Descrição:**  
 A Loja do Bem é um e-commerce inovador que permite às pessoas contribuírem diretamente para a comunidade em que vivem. Em vez de produtos convencionais, os "clientes" adquirem melhorias para a cidade ou apoiam diretamente aqueles que estão passando por dificuldades. Esse projeto foi desenvolvido como parte do trabalho final do curso de React, com o objetivo de criar uma loja online integrada a um banco de dados externo (Firebase) por meio do uso de APIs, garantindo escalabilidade e facilidade de manutenção.
