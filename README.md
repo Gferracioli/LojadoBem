@@ -11,32 +11,36 @@ Breve descrição do projeto. Explique o que ele faz, qual problema resolve e o 
 - [Contribuição](#contribuição)
 
 ## Recursos
-Liste os principais recursos do seu projeto:
-- 📝 Funcionalidade principal 1
-- 📊 Funcionalidade principal 2
-- 💡 Funcionalidade principal 3
 
-## Instalação
+- 🛒 **Escalabilidade Total**: Um e-commerce com potencial de crescimento sem limitações.
+- 🔥 **Integração com Firebase**: Capacidade de gerenciamento para um grande volume de produtos.
+- 📱 **Responsividade**: Design adaptável a qualquer dispositivo, com uma filosofia Mobile First.
 
-### Pré-requisitos
+## Instalação e dependências
+
 - Certifique-se de ter o Node.js instalado.
+- Projeto desenvolvido usando o Create React App
+- BrowserRouter
+- Firebase 
+- Swiper
+- ReactIcons
 
 - Clone o repositório:
-  ```bash
-  git clone https://github.com/seu-usuario/nome-do-repositorio.git
+  git clone https://github.com/Gferracioli/LojadoBem.git
+
+### Iniciar o projeto
+- npm start
 
 ## Uso
 Liste os principais recursos do seu projeto:
-- 📝 Funcionalidade principal 1
-- 📊 Funcionalidade principal 2
-- 💡 Funcionalidade principal 3
+📦 Catálogo de Produtos: Visualização de produtos disponíveis, com detalhes e especificações.
+💳 Carrinho: Adicione produtos ao carrinho já configurado para respeitar a lógica de estoque.
 
 ## Tecnologias utilizadas
-Liste os principais recursos do seu projeto:
-- 📝 React (TypeScript)
-- 📊 HTML
-- 💡 CSS (Tailwind em 90%)
-- Firebase
+⚛️ React (TypeScript): Biblioteca principal para construção da interface.
+🖼️ HTML: Estrutura base do projeto.
+🎨 CSS (Tailwind em 90%): Estilos aplicados com a ajuda do framework Tailwind para agilizar a criação do layout.
+🔥 Firebase: Banco de dados e gerenciamento de autenticação.
 
 ## Contribuição
 Contribuições são bem-vindas! Siga estas etapas:
