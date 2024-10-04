@@ -6,7 +6,7 @@ A Loja do Bem é um e-commerce inovador que permite às pessoas contribuírem di
 ## Índice
 
 - [Recursos](#recursos)
-- [Instalação](#instalação)
+- [Instalação e dependências](#instalação-e-dependências)
 - [Uso](#uso)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Contribuição](#contribuição)
@@ -27,31 +27,45 @@ A Loja do Bem é um e-commerce inovador que permite às pessoas contribuírem di
 - ReactIcons
 
 - Clone o repositório:
+  ```bash
   git clone https://github.com/Gferracioli/LojadoBem.git
+  ```
 
 ### Iniciar o projeto
 
-- npm start
+- Inicie o projeto:
+  ```bash
+  npm start
+  ```
 
 ## Uso
 
 Liste os principais recursos do seu projeto:
-📦 Catálogo de Produtos: Visualização de produtos disponíveis, com detalhes e especificações.
-💳 Carrinho: Adicione produtos ao carrinho já configurado para respeitar a lógica de estoque.
+- 📦 **Catálogo de Produtos**: Visualização de produtos disponíveis, com detalhes e especificações.
+- 💳 **Carrinho**: Adicione produtos ao carrinho já configurado para respeitar a lógica de estoque.
 
 ## Tecnologias utilizadas
 
-⚛️ React (TypeScript): Biblioteca principal para construção da interface.
-🖼️ HTML: Estrutura base do projeto.
-🎨 CSS (Tailwind em 90%): Estilos aplicados com a ajuda do framework Tailwind para agilizar a criação do layout.
-🔥 Firebase: Banco de dados e gerenciamento de autenticação.
+- ⚛️ **React (TypeScript)**: Biblioteca principal para construção da interface.
+- 🖼️ **HTML**: Estrutura base do projeto.
+- 🎨 **CSS (Tailwind em 90%)**: Estilos aplicados com a ajuda do framework Tailwind para agilizar a criação do layout.
+- 🔥 **Firebase**: Banco de dados e gerenciamento de autenticação.
 
 ## Contribuição
 
 Contribuições são bem-vindas! Siga estas etapas:
 
 - Fork o projeto.
-- Crie uma nova branch: git checkout -b minha-nova-feature.
-- Commit suas alterações: git commit -m 'Adicionei uma nova feature'.
-- Push para a branch: git push origin minha-nova-feature.
+- Crie uma nova branch:
+  ```bash
+  git checkout -b minha-nova-feature
+  ```
+- Commit suas alterações:
+  ```bash
+  git commit -m 'Adicionei uma nova feature'
+  ```
+- Push para a branch:
+  ```bash
+  git push origin minha-nova-feature
+  ```
 - Abra um Pull Request.
