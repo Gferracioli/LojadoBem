@@ -23,6 +23,7 @@ A Loja do Bem é um e-commerce inovador que permite às pessoas contribuírem di
 - Projeto desenvolvido usando o Create React App
 - BrowserRouter
 - Firebase
+- DotEnv
 - Swiper
 - ReactIcons
 
