@@ -31,8 +31,9 @@ root.render(
           <Route path="/oprojeto" element={<PaginaInstitucional />} />
           <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
+        </LoadingProvider>
         <Footer />
-      </LoadingProvider>
+      
     </CartProvider>
   </BrowserRouter>
 );

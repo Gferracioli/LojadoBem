@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const navigate = useNavigate();
   const { cart, removeItem, updateItemQuantity, calculateTotalItems, calculateTotal } = useCart();
+  const [showThankYouMessage, setShowThankYouMessage] = useState(false); // Estado para controlar a mensagem
 
   const handleQuantityChange = (itemId: string, adjustment: number) => {
     const item = cart.find((i) => i.id === itemId);
@@ -19,6 +20,10 @@ const Cart = () => {
     }
 
     updateItemQuantity(itemId, newQuantity);
+  };
+
+  const handleCompletePurchase = () => {
+    setShowThankYouMessage(true); // Exibe a mensagem de agradecimento
   };
 
   if (cart.length === 0) {
@@ -122,11 +127,18 @@ const Cart = () => {
             <span>R${calculateTotal().toFixed(2)}</span> {/* Exibe o total do valor */}
           </div>
           <button
-            onClick={() => navigate("/checkout")}
+            onClick={handleCompletePurchase} // Ação do botão agora apenas exibe a mensagem
             className="w-full mt-6 bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
           >
             Finalizar Compra
           </button>
+
+          {/* Exibe a mensagem de agradecimento se o botão for clicado */}
+          {showThankYouMessage && (
+            <div className="mt-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+              Obrigado por acreditar em nosso projeto, em breve será implementado em todo o Brasil.
+            </div>
+          )}
         </div>
       </div>
     </div>
