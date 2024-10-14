@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const navigate = useNavigate();
-  const { cart, removeItem, updateItemQuantity } = useCart();
+  const { cart, removeItem, updateItemQuantity, calculateTotalItems, calculateTotal } = useCart();
 
   const handleQuantityChange = (itemId: string, adjustment: number) => {
     const item = cart.find((i) => i.id === itemId);
@@ -18,12 +18,7 @@ const Cart = () => {
       return;
     }
 
-    // Atualiza a quantidade sem afetar o estoque
     updateItemQuantity(itemId, newQuantity);
-  };
-
-  const calculateTotal = () => {
-    return cart.reduce((total, item) => total + item.productData.price * item.quantidade, 0);
   };
 
   if (cart.length === 0) {
@@ -120,11 +115,11 @@ const Cart = () => {
           <h2 className="text-2xl font-bold mb-4">Resumo do Pedido</h2>
           <div className="mb-2 flex justify-between">
             <span>Total de Itens</span>
-            <span>{cart.length}</span>
+            <span>{calculateTotalItems()}</span> {/* Exibe o total de itens */}
           </div>
           <div className="mb-2 flex justify-between font-bold text-lg">
             <span>Total</span>
-            <span>R${calculateTotal().toFixed(2)}</span>
+            <span>R${calculateTotal().toFixed(2)}</span> {/* Exibe o total do valor */}
           </div>
           <button
             onClick={() => navigate("/checkout")}

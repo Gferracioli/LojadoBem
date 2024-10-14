@@ -17,23 +17,23 @@ const DetalhesProduto = () => {
   const { addItem, isInCart } = useCart();
   const [addedToCart, setAddedToCart] = useState(false);
 
-  // Fetch product data from Firestore using the product ID
+  // Busca dados do produto no Firestore usando o ID
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
       try {
         if (!id) {
           console.error("Product ID is undefined");
-          return; // Exit early if the ID is undefined
+          return; // Sai cedo se o ID estiver indefinido
         }
 
-        const productRef = doc(db, "Produtos", id as string); // Type assertion ensures `id` is a string
-        const productSnap = await getDoc(productRef); // Fetch document
+        const productRef = doc(db, "Produtos", id as string); // Tipo de afirmação para garantir que `id` é uma string
+        const productSnap = await getDoc(productRef); // Busca o documento
 
         if (productSnap.exists()) {
-          setProduto(productSnap.data()); // Set product data from Firestore
+          setProduto(productSnap.data()); // Seta dados do produto do Firestore
           if (isInCart(id)) {
-            setAddedToCart(true); // Check if the product is in the cart
+            setAddedToCart(true); // Verifica se o produto já está no carrinho
           }
         } else {
           console.error("Produto não encontrado");
@@ -50,10 +50,10 @@ const DetalhesProduto = () => {
 
   if (!produto) return <p className="text-center mt-5">Produto não encontrado</p>;
 
-  // Handle adding to the cart with correct parameters
+  // Função para adicionar o produto ao carrinho sem alterar o estoque
   const handleAddToCart = (quantity: number) => {
     if (produto) {
-      addItem(id as string, produto, quantity); // Corrected to pass product ID, product data, and quantity
+      addItem(id as string, produto, quantity); // Adiciona ao carrinho sem alterar estoque
       setAddedToCart(true);
     }
   };
@@ -105,7 +105,7 @@ const DetalhesProduto = () => {
           </div>
 
           {/* Estoque */}
-          <p className="text-sm text-gray-600">Estoque: {produto.estoque}</p>
+          <p className="text-sm text-gray-600">Estoque disponível: {produto.estoque}</p>
         </div>
       </div>
 

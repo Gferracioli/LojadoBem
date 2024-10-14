@@ -22,6 +22,8 @@ interface CartContextProps {
   updateItemQuantity: (id: string, quantidade: number) => Promise<void>;
   clearCart: () => void;
   isInCart: (id: string) => boolean;
+  calculateTotalItems: () => number; // Nova função para calcular total de itens
+  calculateTotal: () => number; // Nova função para calcular total do valor
 }
 
 // Inicialização do contexto com valores padrões
@@ -32,6 +34,8 @@ const CartContext = createContext<CartContextProps>({
   updateItemQuantity: async () => {},
   clearCart: () => {},
   isInCart: () => false,
+  calculateTotalItems: () => 0, // Default
+  calculateTotal: () => 0, // Default
 });
 
 // Provedor do contexto do carrinho
@@ -126,10 +130,33 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return cart.some((item) => item.id === id);
   };
 
+  /**
+   * Função para calcular o total de itens no carrinho, somando todas as quantidades.
+   */
+  const calculateTotalItems = (): number => {
+    return cart.reduce((total, item) => total + item.quantidade, 0);
+  };
+
+  /**
+   * Função para calcular o valor total do carrinho.
+   */
+  const calculateTotal = (): number => {
+    return cart.reduce((total, item) => total + item.productData.price * item.quantidade, 0);
+  };
+
   // Retorna o contexto com todas as funções e o estado do carrinho
   return (
     <CartContext.Provider
-      value={{ cart, addItem, removeItem, updateItemQuantity, clearCart, isInCart }}
+      value={{
+        cart,
+        addItem,
+        removeItem,
+        updateItemQuantity,
+        clearCart,
+        isInCart,
+        calculateTotalItems, // Exporta a função
+        calculateTotal, // Exporta a função
+      }}
     >
       {children}
     </CartContext.Provider>

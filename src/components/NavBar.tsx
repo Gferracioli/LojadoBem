@@ -96,7 +96,7 @@ const NavBar = () => {
             >
               {categoria.nome}
             </Link>
-          ))}
+          ))} 
           <Link
             to="/oprojeto"
             onClick={() => setMenuOpen(false)}
