@@ -1,111 +1,142 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { db } from "../firebaseConfig";
-import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore"; // Inclui updateDoc para atualizações
+import { doc, updateDoc } from "firebase/firestore";
 
+interface ProductData {
+  nome: string;
+  price: number;
+  estoque: number;
+  imagemUrl1: string;
+}
+interface CartItem {
+  id: string;
+  quantidade: number;
+  productData: ProductData;
+}
+
+// Definição das funções e estado que o contexto fornecerá
 interface CartContextProps {
-  cart: { id: string; productData: any }[];
-  addItem: (id: string, productData: any, quantidade: number) => void;
-  removeItem: (id: string) => void;
-  updateItemQuantity: (id: string, quantidade: number) => void;
+  cart: CartItem[];
+  addItem: (id: string, productData: ProductData, quantidade: number) => Promise<void>;
+  removeItem: (id: string) => Promise<void>;
+  updateItemQuantity: (id: string, quantidade: number) => Promise<void>;
   clearCart: () => void;
   isInCart: (id: string) => boolean;
 }
 
+// Inicialização do contexto com valores padrões
 const CartContext = createContext<CartContextProps>({
   cart: [],
-  addItem: () => null,
-  removeItem: () => null,
-  updateItemQuantity: () => null,
-  clearCart: () => null,
+  addItem: async () => {},
+  removeItem: async () => {},
+  updateItemQuantity: async () => {},
+  clearCart: () => {},
   isInCart: () => false,
 });
 
-interface CartProviderProps {
-  children: React.ReactNode;
-}
+// Provedor do contexto do carrinho
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [cart, setCart] = useState<CartItem[]>([]);
 
-export const CartProvider = ({ children }: CartProviderProps) => {
-  const [cart, setCart] = useState<{ id: string; productData: any }[]>([]);
+  /**
+   * Função para adicionar um item ao carrinho.
+   * Verifica se o item já existe no carrinho e, se sim, apenas atualiza a quantidade.
+   * Caso contrário, o item é adicionado ao carrinho.
+   */
+  const addItem = async (id: string, productData: ProductData, quantidade: number) => {
+    const existingItem = cart.find((item) => item.id === id);
+    const newQuantity = existingItem ? existingItem.quantidade + quantidade : quantidade;
 
-  // Função para buscar os dados do carrinho no Firestore
-  const fetchCartData = async () => {
-    const cartCollectionRef = collection(db, "cart");
-    const cartSnapshot = await getDocs(cartCollectionRef);
-    const cartItems = cartSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      productData: doc.data(),
-    }));
-    setCart(cartItems);
-  };
-
-  useEffect(() => {
-    fetchCartData();
-  }, []);
-
-  // Adiciona ou atualiza a quantidade de um item no carrinho
-  const addItem = async (id: string, productData: any, quantidade: number) => {
-    const existingItem = cart.find((cartItem) => cartItem.id === id);
-
-    let updatedCart;
-    if (existingItem) {
-      updatedCart = cart.map((cartItem) =>
-        cartItem.id === id
-          ? { ...cartItem, productData: { ...cartItem.productData, quantidade: cartItem.productData.quantidade + quantidade } }
-          : cartItem
-      );
-    } else {
-      updatedCart = [...cart, { id, productData: { ...productData, quantidade } }];
+    // Verifica se a quantidade solicitada excede o estoque disponível
+    if (newQuantity > productData.estoque) {
+      alert(`Estoque insuficiente! Apenas ${productData.estoque} unidades disponíveis.`);
+      return;
     }
 
+    // Atualiza o carrinho com o item adicionado ou a quantidade alterada
+    const updatedCart = existingItem
+      ? cart.map((item) =>
+          item.id === id ? { ...item, quantidade: newQuantity } : item
+        )
+      : [...cart, { id, quantidade, productData }];
+
     setCart(updatedCart);
-    await updateFirestoreCart(updatedCart); // Atualiza no Firestore
+    await updateStockInFirestore(id, productData.estoque - quantidade); // Atualiza o estoque no Firestore
   };
 
-  // Remove um item do carrinho
+  /**
+   * Função para remover um item do carrinho.
+   * Remove o item do estado local do carrinho sem modificar o estoque.
+   */
   const removeItem = async (id: string) => {
-    const updatedCart = cart.filter((cartItem) => cartItem.id !== id);
-    setCart(updatedCart);
-    await updateFirestoreCart(updatedCart); // Atualiza no Firestore
+    setCart(cart.filter((item) => item.id !== id)); // Remove o item do carrinho
   };
 
-  // Atualiza a quantidade de um item no carrinho
-  const updateItemQuantity = async (id: string, quantidade: number) => {
-    const updatedCart = cart.map((cartItem) =>
-      cartItem.id === id
-        ? { ...cartItem, productData: { ...cartItem.productData, quantidade } }
-        : cartItem
+  /**
+   * Função para atualizar a quantidade de um item no carrinho.
+   * Verifica se a quantidade desejada é permitida (não excede o estoque).
+   */
+  const updateItemQuantity = async (id: string, newQuantity: number) => {
+    const item = cart.find((item) => item.id === id);
+    if (!item) return;
+
+    const adjustment = newQuantity - item.quantidade;
+
+    // Verifica se a quantidade solicitada excede o estoque disponível
+    if (adjustment > 0 && newQuantity > item.productData.estoque) {
+      alert("Estoque insuficiente para aumentar a quantidade.");
+      return;
+    }
+
+    // Atualiza a quantidade do item no carrinho
+    const updatedCart = cart.map((item) =>
+      item.id === id ? { ...item, quantidade: newQuantity } : item
     );
     setCart(updatedCart);
-    await updateFirestoreCart(updatedCart); // Atualiza no Firestore
+
+    await updateStockInFirestore(id, item.productData.estoque - adjustment); // Atualiza o estoque no Firestore
   };
 
-  // Limpa todo o carrinho
-  const clearCart = async () => {
+  /**
+   * Função para atualizar o estoque de um produto no Firestore.
+   * É chamada após qualquer mudança de quantidade no carrinho.
+   */
+  const updateStockInFirestore = async (id: string, newStock: number) => {
+    try {
+      const productRef = doc(db, "Produtos", id);
+      await updateDoc(productRef, { estoque: newStock });
+    } catch (error) {
+      console.error("Erro ao atualizar o estoque no Firestore:", error);
+    }
+  };
+
+  /**
+   * Função para limpar todos os itens do carrinho.
+   * Apenas redefine o estado local do carrinho.
+   */
+  const clearCart = () => {
     setCart([]);
-    await updateFirestoreCart([]); // Atualiza no Firestore
   };
 
-  // Verifica se um item está no carrinho
-  const isInCart = (id: string) => {
-    return cart.some((cartItem) => cartItem.id === id);
+  /**
+   * Função para verificar se um item já está presente no carrinho.
+   * Retorna um booleano indicando a presença do item.
+   */
+  const isInCart = (id: string): boolean => {
+    return cart.some((item) => item.id === id);
   };
 
-  // Atualiza o Firestore com o estado atual do carrinho
-  const updateFirestoreCart = async (updatedCart: { id: string; productData: any }[]) => {
-    await Promise.all(
-      updatedCart.map(async (item) => {
-        const cartDocRef = doc(db, "cart", item.id);
-        await setDoc(cartDocRef, item.productData);
-      })
-    );
-  };
-
+  // Retorna o contexto com todas as funções e o estado do carrinho
   return (
-    <CartContext.Provider value={{ cart, addItem, removeItem, updateItemQuantity, clearCart, isInCart }}>
+    <CartContext.Provider
+      value={{ cart, addItem, removeItem, updateItemQuantity, clearCart, isInCart }}
+    >
       {children}
     </CartContext.Provider>
   );
 };
 
-// Hook para usar o CartContext
+/**
+ * Hook para acessar o contexto do carrinho em outros componentes.
+ */
 export const useCart = () => useContext(CartContext);
